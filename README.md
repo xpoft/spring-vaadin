@@ -110,3 +110,24 @@ public class MainView extends Panel implements View
     }
 }
 ~~~~
+
+# Maven
+
+pom.xml
+~~~~ xml
+...
+    <repositories>
+        <repository>
+            <id>xpoft-spring-vaadin</id>
+            <url>https://github.com/xpoft/spring-vaadin/raw/master/releases</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>ru.xpoft.vaadin</groupId>
+            <artifactId>spring-vaadin-integration</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+~~~~
