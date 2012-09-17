@@ -50,7 +50,7 @@ public class MyUI extends UI
 }
 ~~~~
 
-# Autowiring view
+# Autowiring views
 New DiscoveryNavigator.
 
 Using example:
@@ -74,19 +74,22 @@ public class MyUI extends UI
         Navigator.SimpleViewDisplay display = new Navigator.SimpleViewDisplay();
         setContent(display);
 
+        **
         DiscoveryNavigator navigator = new DiscoveryNavigator(applicationContext, UI.getCurrent().getPage().getCurrent(), display);
         navigator.navigateTo(UI.getCurrent().getPage().getFragment());
+        **
     }
 }
+~~~~
 
 View example:
 ~~~~ java
 @Component
 @Scope("request")
-@VaadinView(MainView.NAME)
+**@VaadinView(MainView.NAME)**
 public class MainView extends Panel implements View
 {
-    public static final String NAME = "";
+    public static final String NAME = "profile";
 
     @Autowired
     private WebApplicationContext applicationContext;
