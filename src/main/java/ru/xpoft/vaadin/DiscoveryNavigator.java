@@ -11,18 +11,59 @@ import org.springframework.context.annotation.ClassPathScanningCandidateComponen
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author xpoft
  */
 public class DiscoveryNavigator extends Navigator
 {
+    private static class DiscoveryClass
+    {
+        private String viewName;
+        private Class<? extends View> clazz;
+
+        private DiscoveryClass(String viewName, Class<? extends View> clazz)
+        {
+            this.viewName = viewName;
+            this.clazz = clazz;
+        }
+
+        public String getViewName()
+        {
+            return viewName;
+        }
+
+        public void setViewName(String viewName)
+        {
+            this.viewName = viewName;
+        }
+
+        public Class<? extends View> getClazz()
+        {
+            return clazz;
+        }
+
+        public void setClazz(Class<? extends View> clazz)
+        {
+            this.clazz = clazz;
+        }
+
+        @Override
+        public String toString()
+        {
+            return "DiscoveryClass{" +
+                    "viewName='" + viewName + '\'' +
+                    ", clazz=" + clazz +
+                    '}';
+        }
+    }
+
     private static Logger logger = LoggerFactory.getLogger(DiscoveryNavigator.class);
     private WebApplicationContext applicationContext;
-    private static final Map<String, Class> views = new ConcurrentHashMap<>();
+    private static final List<DiscoveryClass> views = new CopyOnWriteArrayList<>();
 
     static
     {
@@ -35,9 +76,11 @@ public class DiscoveryNavigator extends Navigator
             Set<BeanDefinition> beans = scanner.findCandidateComponents("");
             for (BeanDefinition bean : beans)
             {
-                Class clazz = Class.forName(bean.getBeanClassName());
+                Class<? extends View> clazz = (Class<? extends View>) Class.forName(bean.getBeanClassName());
                 VaadinView vaadinView = (VaadinView) clazz.getAnnotation(VaadinView.class);
-                views.put(vaadinView.value(), clazz);
+
+                DiscoveryClass discoveryClass = new DiscoveryClass(vaadinView.value(), clazz);
+                views.add(discoveryClass);
                 logger.debug("found \"{}\" for \"{}\"", new Object[]{vaadinView.value(), bean.getBeanClassName()});
             }
         }
@@ -49,13 +92,51 @@ public class DiscoveryNavigator extends Navigator
 
     public DiscoveryNavigator(WebApplicationContext applicationContext, Page page, ViewDisplay display)
     {
+        this(applicationContext, page, display, true);
+    }
+
+    public DiscoveryNavigator(WebApplicationContext applicationContext, Page page, ViewDisplay display, boolean discoveryViews)
+    {
         super(page, display);
         this.applicationContext = applicationContext;
 
-        for (Map.Entry<String, Class> view : views.entrySet())
+        if (discoveryViews)
         {
-            addBeanView(view.getKey(), view.getValue());
+            discoveryViews("");
         }
+    }
+
+    public void discoveryViews(String basePackage, String[] excludePackages)
+    {
+        for (DiscoveryClass discoveryClass : views)
+        {
+            String viewName = discoveryClass.viewName;
+            Class<? extends View> clazz = discoveryClass.getClazz();
+            String packageName = clazz.getPackage().getName();
+
+            if (packageName.startsWith(basePackage))
+            {
+                boolean exclude = false;
+                for(String excludePackage : excludePackages)
+                {
+                    if (packageName.startsWith(excludePackage))
+                    {
+                        exclude = true;
+                        break;
+                    }
+                }
+
+                if (!exclude)
+                {
+                    addBeanView(viewName, clazz);
+                }
+            }
+        }
+    }
+
+    public void discoveryViews(String basePackage)
+    {
+        discoveryViews(basePackage, new String[]{});
     }
 
     public void addBeanView(String viewName, Class<? extends View> viewClass)
