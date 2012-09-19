@@ -119,7 +119,7 @@ pom.xml
     <repositories>
         <repository>
             <id>xpoft-spring-vaadin</id>
-            <url>https://github.com/xpoft/spring-vaadin/raw/master/releases</url>
+            <url>https://github.com/xpoft/spring-vaadin/raw/master/repository</url>
         </repository>
     </repositories>
 
