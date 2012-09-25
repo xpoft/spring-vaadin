@@ -60,8 +60,6 @@ Using example:
 @Theme("myTheme")
 public class MyUI extends UI
 {
-    private static Logger logger = LoggerFactory.getLogger(TrackerUI.class);
-
     @Autowired
     private WebApplicationContext applicationContext;
 
