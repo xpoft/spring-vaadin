@@ -129,3 +129,35 @@ pom.xml
         </dependency>
     </dependencies>
 ~~~~
+
+# Changelog
+
+## 1.0.1
+- Custom DescoveryNavigator
+
+Default. Add all view-beans from root package:
+~~~~ java
+    DiscoveryNavigator navigator = new DiscoveryNavigator(applicationContext, UI.getCurrent().getPage().getCurrent(), display);
+    navigator.navigateTo(UI.getCurrent().getPage().getFragment());
+~~~~
+
+Disable add view-beans to Navigator.
+You can do it manual.
+~~~~ java
+    DiscoveryNavigator navigator = new DiscoveryNavigator(applicationContext, UI.getCurrent().getPage().getCurrent(), display, false);
+    navigator.addBeanView("view1", MyView.class);
+
+    navigator.navigateTo(UI.getCurrent().getPage().getFragment());
+~~~~
+or you can manual discover beans in a package
+~~~~ java
+    navigator.discoveryViews("ru.xpoft.vaadin.test");
+~~~~
+you can exclude some packages
+~~~~ java
+    navigator.discoveryViews("ru.xpoft.vaadin.test", new String[] {"ru.xpoft.vaadin.test.one", "ru.xpoft.vaadin.test.two"})
+~~~~
+
+## 1.0
+- Autowiring UI
+- DiscoveryNavigator
