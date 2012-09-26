@@ -68,12 +68,12 @@ public class MyUI extends UI
     private MyClass myClass;
 
     @Override
-    protected void init(final WrappedRequest request)
+    protected void init(final VaadinRequest request)
     {
         Navigator.SimpleViewDisplay display = new Navigator.SimpleViewDisplay();
         setContent(display);
 
-        DiscoveryNavigator navigator = new DiscoveryNavigator(applicationContext, UI.getCurrent().getPage().getCurrent(), display);
+        DiscoveryNavigator navigator = new DiscoveryNavigator(applicationContext, UI.getCurrent(), display);
         navigator.navigateTo(UI.getCurrent().getPage().getFragment());
     }
 }
