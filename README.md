@@ -131,6 +131,17 @@ pom.xml
     </dependencies>
 ~~~~
 
+# Sample
+
+https://github.com/xpoft/spring-vaadin/tree/sample
+~~~~
+git clone git://github.com/xpoft/spring-vaadin.git -b sample spring-vaadin
+cd spring-vaadin
+mvn jetty:run
+~~~~
+
+Then go to http://locahost:9090
+
 # Changelog
 
 ## 1.0.2
