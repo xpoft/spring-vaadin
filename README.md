@@ -132,6 +132,9 @@ pom.xml
 
 # Changelog
 
+## 1.0.2
+- Add Vaadin 7.0.0.beta2 support
+
 ## 1.0.1
 - Custom DescoveryNavigator
 

@@ -9,22 +9,23 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author xpoft
  */
 public class SpringVaadinServlet extends VaadinServlet
 {
-    private class SpringProvider extends AbstractUIProvider
+    private class SpringProvider extends UIProvider
     {
         @Override
-        public UI createInstance(WrappedRequest request, Class<? extends UI> type)
+        public UI createInstance(UICreateEvent event)
         {
             return (UI) applicationContext.getBean(vaadinBeanName);
         }
 
         @Override
-        public Class<? extends UI> getUIClass(WrappedRequest request)
+        public Class<? extends UI> getUIClass(UIClassSelectionEvent uiClassSelectionEvent)
         {
             return (Class<? extends UI>) applicationContext.getType(vaadinBeanName);
         }
@@ -48,9 +49,18 @@ public class SpringVaadinServlet extends VaadinServlet
     }
 
     @Override
-    protected void onVaadinSessionStarted(WrappedHttpServletRequest request, VaadinServletSession session) throws ServletException
+    protected VaadinServletService createServletService(DeploymentConfiguration deploymentConfiguration)
     {
-        session.addUIProvider(new SpringProvider());
-        super.onVaadinSessionStarted(request, session);
+        final VaadinServletService service = super.createServletService(deploymentConfiguration);
+        service.addSessionInitListener(new SessionInitListener()
+        {
+            @Override
+            public void sessionInit(SessionInitEvent event) throws ServiceException
+            {
+                service.addUIProvider(event.getSession(), new SpringProvider());
+            }
+        });
+
+        return service;
     }
 }

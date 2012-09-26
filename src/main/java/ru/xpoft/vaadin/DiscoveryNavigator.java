@@ -4,6 +4,7 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.server.Page;
+import com.vaadin.ui.UI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -90,14 +91,14 @@ public class DiscoveryNavigator extends Navigator
         }
     }
 
-    public DiscoveryNavigator(WebApplicationContext applicationContext, Page page, ViewDisplay display)
+    public DiscoveryNavigator(WebApplicationContext applicationContext, UI ui, ViewDisplay display)
     {
-        this(applicationContext, page, display, true);
+        this(applicationContext, ui, display, true);
     }
 
-    public DiscoveryNavigator(WebApplicationContext applicationContext, Page page, ViewDisplay display, boolean discoveryViews)
+    public DiscoveryNavigator(WebApplicationContext applicationContext, UI ui, ViewDisplay display, boolean discoveryViews)
     {
-        super(page, display);
+        super(ui, display);
         this.applicationContext = applicationContext;
 
         if (discoveryViews)
@@ -117,7 +118,7 @@ public class DiscoveryNavigator extends Navigator
             if (packageName.startsWith(basePackage))
             {
                 boolean exclude = false;
-                for(String excludePackage : excludePackages)
+                for (String excludePackage : excludePackages)
                 {
                     if (packageName.startsWith(excludePackage))
                     {
