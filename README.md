@@ -2,7 +2,8 @@ Spring Vaadin Integration
 =======================
 
 Vaadin 7.x supports only.
-Current version: Vaadin 7.0.0.beta1
+
+Current version: Vaadin 7.0.0.beta2
 
 # Servlet
 
