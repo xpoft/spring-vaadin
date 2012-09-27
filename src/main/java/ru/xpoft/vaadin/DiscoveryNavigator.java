@@ -3,14 +3,13 @@ package ru.xpoft.vaadin;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
-import com.vaadin.server.Page;
 import com.vaadin.ui.UI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 import java.util.Set;
@@ -63,7 +62,7 @@ public class DiscoveryNavigator extends Navigator
     }
 
     private static Logger logger = LoggerFactory.getLogger(DiscoveryNavigator.class);
-    private WebApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
     private static final List<DiscoveryClass> views = new CopyOnWriteArrayList<>();
 
     static
@@ -91,12 +90,12 @@ public class DiscoveryNavigator extends Navigator
         }
     }
 
-    public DiscoveryNavigator(WebApplicationContext applicationContext, UI ui, ViewDisplay display)
+    public DiscoveryNavigator(ApplicationContext applicationContext, UI ui, ViewDisplay display)
     {
         this(applicationContext, ui, display, true);
     }
 
-    public DiscoveryNavigator(WebApplicationContext applicationContext, UI ui, ViewDisplay display, boolean discoveryViews)
+    public DiscoveryNavigator(ApplicationContext applicationContext, UI ui, ViewDisplay display, boolean discoveryViews)
     {
         super(ui, display);
         this.applicationContext = applicationContext;

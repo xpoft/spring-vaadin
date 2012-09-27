@@ -2,14 +2,14 @@ package ru.xpoft.vaadin;
 
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.context.ApplicationContext;
 
 /**
  * @author xpoft
  */
 public class SpringViewProvider extends Navigator.ClassBasedViewProvider
 {
-    private transient WebApplicationContext applicationContext;
+    private transient ApplicationContext applicationContext;
 
     /**
      * Create a new view provider which creates new view instances based on
@@ -18,7 +18,7 @@ public class SpringViewProvider extends Navigator.ClassBasedViewProvider
      * @param viewName  name of the views to create (not null)
      * @param viewClass class to instantiate when a view is requested (not null)
      */
-    public SpringViewProvider(WebApplicationContext applicationContext, String viewName, Class<? extends View> viewClass)
+    public SpringViewProvider(ApplicationContext applicationContext, String viewName, Class<? extends View> viewClass)
     {
         super(viewName, viewClass);
         this.applicationContext = applicationContext;

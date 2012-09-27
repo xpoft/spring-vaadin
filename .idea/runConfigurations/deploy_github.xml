@@ -1,22 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="deploy github" type="MavenRunConfiguration" factoryName="Maven">
     <MavenSettings>
-      <option name="myGeneralSettings">
-        <MavenGeneralSettings>
-          <option name="checksumPolicy" value="FAIL" />
-          <option name="failureBehavior" value="FAST" />
-          <option name="localRepository" value="" />
-          <option name="mavenHome" value="" />
-          <option name="nonRecursive" value="false" />
-          <option name="outputLevel" value="DEBUG" />
-          <option name="pluginUpdatePolicy" value="DEFAULT" />
-          <option name="printErrorStackTraces" value="false" />
-          <option name="snapshotUpdatePolicy" value="ALWAYS_UPDATE" />
-          <option name="usePluginRegistry" value="false" />
-          <option name="userSettingsFile" value="" />
-          <option name="workOffline" value="false" />
-        </MavenGeneralSettings>
-      </option>
+      <option name="myGeneralSettings" />
       <option name="myRunnerSettings" />
       <option name="myRunnerParameters">
         <MavenRunnerParameters>
