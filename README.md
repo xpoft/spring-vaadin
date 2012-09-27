@@ -62,7 +62,7 @@ Using example:
 public class MyUI extends UI
 {
     @Autowired
-    private WebApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
     @Autowired
     private MyClass myClass;
@@ -89,7 +89,7 @@ public class MainView extends Panel implements View
     public static final String NAME = "profile";
 
     @Autowired
-    private WebApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
     @Autowired
     private SimpleForm form;
@@ -143,6 +143,9 @@ mvn jetty:run
 Then go to http://locahost:9090
 
 # Changelog
+
+## 1.0.4
+- DiscoveryNavigator. Migrate from WebApplicationContext to ApplicationContext
 
 ## 1.0.2
 - Add Vaadin 7.0.0.beta2 support
