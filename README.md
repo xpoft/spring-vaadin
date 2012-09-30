@@ -42,7 +42,7 @@ public class MyUI extends UI
     private static Logger logger = LoggerFactory.getLogger(TrackerUI.class);
 
     @Autowired
-    private WebApplicationContext applicationContext;
+    private transient ApplicationContext applicationContext;
 
     @Autowired
     private MyClass myClass;
@@ -62,7 +62,7 @@ Using example:
 public class MyUI extends UI
 {
     @Autowired
-    private ApplicationContext applicationContext;
+    private transient ApplicationContext applicationContext;
 
     @Autowired
     private MyClass myClass;
@@ -89,7 +89,7 @@ public class MainView extends Panel implements View
     public static final String NAME = "profile";
 
     @Autowired
-    private ApplicationContext applicationContext;
+    private transient ApplicationContext applicationContext;
 
     @Autowired
     private SimpleForm form;
@@ -131,6 +131,14 @@ pom.xml
     </dependencies>
 ~~~~
 
+# Serialization
+
+You must use "transient" attribute for ApplicationContext.
+~~~~ java
+    @Autowired
+    private transient ApplicationContext applicationContext;
+~~~~
+
 # Sample
 
 https://github.com/xpoft/spring-vaadin/tree/sample
@@ -143,6 +151,9 @@ mvn jetty:run
 Then go to http://locahost:9090
 
 # Changelog
+
+## 1.0.5
+- Fix serialization.
 
 ## 1.0.4
 - DiscoveryNavigator. Migrate from WebApplicationContext to ApplicationContext

@@ -32,7 +32,7 @@ public class SpringVaadinServlet extends VaadinServlet
     }
 
     private static Logger logger = LoggerFactory.getLogger(SpringVaadinServlet.class);
-    private WebApplicationContext applicationContext;
+    private transient WebApplicationContext applicationContext;
     private static final String BEAN_NAME_PARAMETER = "beanName";
     private String vaadinBeanName = "ui";
 

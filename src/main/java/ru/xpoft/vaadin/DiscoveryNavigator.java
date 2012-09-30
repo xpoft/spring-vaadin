@@ -62,7 +62,7 @@ public class DiscoveryNavigator extends Navigator
     }
 
     private static Logger logger = LoggerFactory.getLogger(DiscoveryNavigator.class);
-    private ApplicationContext applicationContext;
+    private transient ApplicationContext applicationContext;
     private static final List<DiscoveryClass> views = new CopyOnWriteArrayList<>();
 
     static
