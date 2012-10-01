@@ -126,14 +126,14 @@ pom.xml
         <dependency>
             <groupId>ru.xpoft.vaadin</groupId>
             <artifactId>spring-vaadin-integration</artifactId>
-            <version>1.0.1</version>
+            <version>1.1</version>
         </dependency>
     </dependencies>
 ~~~~
 
 # Serialization
 
-You must use "transient" attribute for ApplicationContext.
+You should use "transient" attribute for ApplicationContext and other's context's beans.
 ~~~~ java
     @Autowired
     private transient ApplicationContext applicationContext;
@@ -152,7 +152,7 @@ Then go to http://locahost:9090
 
 # Changelog
 
-## 1.0.5
+## 1.1
 - Fix serialization.
 
 ## 1.0.4

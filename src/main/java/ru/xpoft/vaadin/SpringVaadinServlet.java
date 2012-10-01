@@ -1,39 +1,30 @@
 package ru.xpoft.vaadin;
 
 import com.vaadin.server.*;
-import com.vaadin.ui.UI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author xpoft
  */
 public class SpringVaadinServlet extends VaadinServlet
 {
-    private class SpringProvider extends UIProvider
-    {
-        @Override
-        public UI createInstance(UICreateEvent event)
-        {
-            return (UI) applicationContext.getBean(vaadinBeanName);
-        }
-
-        @Override
-        public Class<? extends UI> getUIClass(UIClassSelectionEvent uiClassSelectionEvent)
-        {
-            return (Class<? extends UI>) applicationContext.getType(vaadinBeanName);
-        }
-    }
-
     private static Logger logger = LoggerFactory.getLogger(SpringVaadinServlet.class);
-    private transient WebApplicationContext applicationContext;
     private static final String BEAN_NAME_PARAMETER = "beanName";
+    private static final String REQUEST_CHECK_DATE = SpringVaadinServlet.class.getCanonicalName() + "_check_date";
+    private transient ApplicationContext applicationContext;
+    private transient Date checkedSerialization = new Date();
     private String vaadinBeanName = "ui";
 
     @Override
@@ -57,10 +48,48 @@ public class SpringVaadinServlet extends VaadinServlet
             @Override
             public void sessionInit(SessionInitEvent event) throws ServiceException
             {
-                service.addUIProvider(event.getSession(), new SpringProvider());
+                service.addUIProvider(event.getSession(), new SpringUIProvider(applicationContext, vaadinBeanName));
             }
         });
 
         return service;
+    }
+
+    @Override
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        HttpSession httpSession = request.getSession();
+        if (httpSession != null)
+        {
+            Date checkDate = (Date) httpSession.getAttribute(REQUEST_CHECK_DATE);
+            if (checkDate == null || checkDate.before(checkedSerialization))
+            {
+                try
+                {
+                    VaadinSession vaadinSession = getService().findVaadinSession(createVaadinRequest(request));
+                    List<UIProvider> uiProviders = getService().getUIProviders(vaadinSession);
+                    for (UIProvider uiProvider : uiProviders)
+                    {
+                        if (uiProvider instanceof SpringUIProvider)
+                        {
+                            ApplicationContext context = ((SpringUIProvider) uiProvider).getApplicationContext();
+                            if (context == null)
+                            {
+                                getService().removeUIProvider(vaadinSession, uiProvider);
+                                getService().addUIProvider(vaadinSession, new SpringUIProvider(applicationContext, vaadinBeanName));
+                            }
+                        }
+                    }
+                }
+                catch (ServiceException | SessionExpiredException e)
+                {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            httpSession.setAttribute(REQUEST_CHECK_DATE, checkedSerialization);
+        }
+
+        super.service(request, response);
     }
 }
