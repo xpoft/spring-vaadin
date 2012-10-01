@@ -10,10 +10,14 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
+import org.springframework.core.type.filter.RegexPatternTypeFilter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.regex.Pattern;
 
 /**
  * @author xpoft
@@ -62,81 +66,72 @@ public class DiscoveryNavigator extends Navigator
     }
 
     private static Logger logger = LoggerFactory.getLogger(DiscoveryNavigator.class);
+    private static final ConcurrentMap<String, List<DiscoveryClass>> viewsCache = new ConcurrentHashMap<>();
     private transient ApplicationContext applicationContext;
-    private static final List<DiscoveryClass> views = new CopyOnWriteArrayList<>();
 
-    static
+    public DiscoveryNavigator(ApplicationContext applicationContext, UI ui, ViewDisplay display, String basePackage)
     {
-        logger.debug("discovery views:");
+        this(applicationContext, ui, display, basePackage, new String[]{});
+    }
+
+    public DiscoveryNavigator(ApplicationContext applicationContext, UI ui, ViewDisplay display, String basePackage, String[] excludePackages)
+    {
+        super(ui, display);
+        this.applicationContext = applicationContext;
+
+        logger.debug("discovery views for base package {}", basePackage);
 
         try
         {
-            ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
-            scanner.addIncludeFilter(new AnnotationTypeFilter(VaadinView.class));
-            Set<BeanDefinition> beans = scanner.findCandidateComponents("");
-            for (BeanDefinition bean : beans)
+            int excludeHash = 0;
+            if (excludePackages != null && excludePackages.length > 0)
             {
-                Class<? extends View> clazz = (Class<? extends View>) Class.forName(bean.getBeanClassName());
-                VaadinView vaadinView = (VaadinView) clazz.getAnnotation(VaadinView.class);
+                excludeHash = excludePackages.hashCode();
+            }
+            String hash = basePackage.hashCode() + " " + excludeHash;
+            if (!viewsCache.containsKey(hash))
+            {
+                logger.debug("discovery in classpath");
 
-                DiscoveryClass discoveryClass = new DiscoveryClass(vaadinView.value(), clazz);
-                views.add(discoveryClass);
-                logger.debug("found \"{}\" for \"{}\"", new Object[]{vaadinView.value(), bean.getBeanClassName()});
+                ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
+                scanner.addIncludeFilter(new AnnotationTypeFilter(VaadinView.class));
+                for (String excludePackage : excludePackages)
+                {
+                    logger.debug("exclude package: {}", excludePackage);
+                    Pattern pattern = Pattern.compile(excludePackage);
+                    scanner.addExcludeFilter(new RegexPatternTypeFilter(pattern));
+                }
+
+                List<DiscoveryClass>discoveryClasses = new ArrayList<>();
+                Set<BeanDefinition> beans = scanner.findCandidateComponents(basePackage);
+                for (BeanDefinition bean : beans)
+                {
+                    Class<? extends View> clazz = (Class<? extends View>) Class.forName(bean.getBeanClassName());
+                    VaadinView vaadinView = clazz.getAnnotation(VaadinView.class);
+                    String viewName = vaadinView.value();
+
+                    DiscoveryClass discoveryClass = new DiscoveryClass(viewName, clazz);
+                    discoveryClasses.add(discoveryClass);
+
+                    logger.debug("found \"{}\" for \"{}\"", new Object[]{viewName, bean.getBeanClassName()});
+                }
+
+                viewsCache.put(hash, discoveryClasses);
+            }
+            else
+            {
+                logger.debug("get views from cache");
+            }
+
+            for(DiscoveryClass discoveryClass : viewsCache.get(hash))
+            {
+                addBeanView(discoveryClass.getViewName(), discoveryClass.getClazz());
             }
         }
         catch (ClassNotFoundException e)
         {
             logger.error("Error loading: {}", e);
         }
-    }
-
-    public DiscoveryNavigator(ApplicationContext applicationContext, UI ui, ViewDisplay display)
-    {
-        this(applicationContext, ui, display, true);
-    }
-
-    public DiscoveryNavigator(ApplicationContext applicationContext, UI ui, ViewDisplay display, boolean discoveryViews)
-    {
-        super(ui, display);
-        this.applicationContext = applicationContext;
-
-        if (discoveryViews)
-        {
-            discoveryViews("");
-        }
-    }
-
-    public void discoveryViews(String basePackage, String[] excludePackages)
-    {
-        for (DiscoveryClass discoveryClass : views)
-        {
-            String viewName = discoveryClass.viewName;
-            Class<? extends View> clazz = discoveryClass.getClazz();
-            String packageName = clazz.getPackage().getName();
-
-            if (packageName.startsWith(basePackage))
-            {
-                boolean exclude = false;
-                for (String excludePackage : excludePackages)
-                {
-                    if (packageName.startsWith(excludePackage))
-                    {
-                        exclude = true;
-                        break;
-                    }
-                }
-
-                if (!exclude)
-                {
-                    addBeanView(viewName, clazz);
-                }
-            }
-        }
-    }
-
-    public void discoveryViews(String basePackage)
-    {
-        discoveryViews(basePackage, new String[]{});
     }
 
     public void addBeanView(String viewName, Class<? extends View> viewClass)

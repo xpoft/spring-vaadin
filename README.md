@@ -73,7 +73,7 @@ public class MyUI extends UI
         Navigator.SimpleViewDisplay display = new Navigator.SimpleViewDisplay();
         setContent(display);
 
-        DiscoveryNavigator navigator = new DiscoveryNavigator(applicationContext, UI.getCurrent(), display);
+        DiscoveryNavigator navigator = new DiscoveryNavigator(applicationContext, UI.getCurrent(), display, "ru.xpoft");
         navigator.navigateTo(UI.getCurrent().getPage().getFragment());
     }
 }
@@ -126,7 +126,7 @@ pom.xml
         <dependency>
             <groupId>ru.xpoft.vaadin</groupId>
             <artifactId>spring-vaadin-integration</artifactId>
-            <version>1.1</version>
+            <version>1.2</version>
         </dependency>
     </dependencies>
 ~~~~
@@ -151,6 +151,9 @@ mvn jetty:run
 Then go to http://locahost:9090
 
 # Changelog
+
+## 1.2
+- Improve DiscoveryNavigator (cache, performance).
 
 ## 1.1
 - Fix serialization.
