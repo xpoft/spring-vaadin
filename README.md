@@ -154,6 +154,8 @@ Then go to http://locahost:9090
 
 ## 1.2
 - Improve DiscoveryNavigator (cache, performance).
+Now you should set "basePackage" in DiscoveryNavigator constuctor.
+Multi-jars, enhanced scanning already supported.
 
 ## 1.1
 - Fix serialization.
