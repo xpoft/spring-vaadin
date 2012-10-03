@@ -3,7 +3,7 @@ Spring Vaadin Integration
 
 Vaadin 7.x supports only.
 
-Current version: Vaadin 7.0.0.beta2
+Current version: Vaadin 7.0.0.beta3
 
 # Servlet
 
@@ -126,7 +126,7 @@ pom.xml
         <dependency>
             <groupId>ru.xpoft.vaadin</groupId>
             <artifactId>spring-vaadin-integration</artifactId>
-            <version>1.2</version>
+            <version>1.3</version>
         </dependency>
     </dependencies>
 ~~~~
@@ -151,6 +151,9 @@ mvn jetty:run
 Then go to http://locahost:9090
 
 # Changelog
+
+## 1.3
+- Vaadin 7.0.0.beta3
 
 ## 1.2
 - Improve DiscoveryNavigator (cache, performance).
