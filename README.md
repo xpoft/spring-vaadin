@@ -35,7 +35,7 @@ UI class example
 
 ~~~~ java
 @Component
-@Scope("request")
+@Scope("prototype")
 @Theme("myTheme")
 public class MyUI extends UI
 {
@@ -57,7 +57,7 @@ New DiscoveryNavigator.
 Using example:
 ~~~~ java
 @Component
-@Scope("request")
+@Scope("prototype")
 @Theme("myTheme")
 public class MyUI extends UI
 {
@@ -82,7 +82,7 @@ public class MyUI extends UI
 View example:
 ~~~~ java
 @Component
-@Scope("request")
+@Scope("prototype")
 @VaadinView(MainView.NAME)
 public class MainView extends Panel implements View
 {
