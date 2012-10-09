@@ -25,6 +25,10 @@ public class SpringVaadinServlet extends VaadinServlet
      */
     private static final String BEAN_NAME_PARAMETER = "beanName";
     /**
+     * Servlet parameter name for UI bean
+     */
+    private static final String SYSTEM_MESSAGES_BEAN_NAME_PARAMETER = "systemMessagesBeanName";
+    /**
      * Session attribute for save check date
      */
     private static final String REQUEST_CHECK_DATE = SpringVaadinServlet.class.getCanonicalName() + "_check_date";
@@ -40,23 +44,42 @@ public class SpringVaadinServlet extends VaadinServlet
      * UI bean name
      */
     private String vaadinBeanName = "ui";
+    private String systemMessagesBeanName = "";
 
     @Override
     public void init(ServletConfig servletConfig) throws ServletException
     {
-        super.init(servletConfig);
-
         applicationContext = WebApplicationContextUtils.getWebApplicationContext(servletConfig.getServletContext());
         if (servletConfig.getInitParameter(BEAN_NAME_PARAMETER) != null)
         {
             vaadinBeanName = servletConfig.getInitParameter(BEAN_NAME_PARAMETER);
+            logger.debug("found BEAN_NAME_PARAMETER: {}", vaadinBeanName);
         }
+
+        if (servletConfig.getInitParameter(SYSTEM_MESSAGES_BEAN_NAME_PARAMETER) != null)
+        {
+            systemMessagesBeanName = servletConfig.getInitParameter(SYSTEM_MESSAGES_BEAN_NAME_PARAMETER);
+            logger.debug("found SYSTEM_MESSAGES_BEAN_NAME_PARAMETER: {}", systemMessagesBeanName);
+        }
+
+        super.init(servletConfig);
     }
 
     @Override
     protected VaadinServletService createServletService(DeploymentConfiguration deploymentConfiguration)
     {
-        final VaadinServletService service = super.createServletService(deploymentConfiguration);
+        final VaadinServletService service =
+                (systemMessagesBeanName != null && systemMessagesBeanName != "")
+                        ? new CustomVaadinServletService(this, deploymentConfiguration)
+                        : super.createServletService(deploymentConfiguration);
+
+        if (service instanceof CustomVaadinServletService)
+        {
+            logger.debug("use CustomVaadinServletService");
+            SystemMessages systemMessages = applicationContext.getBean(systemMessagesBeanName, SystemMessages.class);
+            logger.debug("get SystemMessages bean: {}", systemMessages);
+            ((CustomVaadinServletService) service).setSystemMessages(systemMessages);
+        }
 
         // Add UI provider for new session
         service.addSessionInitListener(new SessionInitListener()

@@ -139,6 +139,51 @@ You should use "transient" attribute for ApplicationContext and other's context'
     private transient ApplicationContext applicationContext;
 ~~~~
 
+# SystemMessages customization
+
+web.xml
+~~~~ xml
+    <servlet>
+        <servlet-name>Vaadin Application</servlet-name>
+        <servlet-class>ru.xpoft.vaadin.SpringVaadinServlet</servlet-class>
+        ...
+        <init-param>
+            <param-name>systemMessagesBeanName</param-name>
+            <param-value>customSystemMessages</param-value>
+        </init-param>
+    </servlet>
+~~~~
+
+Simple implementation:
+~~~~ java
+@Component
+public class CustomSystemMessages extends CustomizedSystemMessages
+{
+    public CustomSystemMessages()
+    {
+        setCommunicationErrorCaption("myCommunicationErrorCaption");
+        setCommunicationErrorMessage("myCommunicationErrorMessage");
+    }
+}
+~~~~
+
+Enhanced implementation:
+~~~~ java
+@Component
+public class CustomSystemMessages extends CustomizedSystemMessages
+{
+    @Autowired
+    private transient MessageSource messageSource;
+
+    @PostConstruct
+    public void PostConstruct()
+    {
+        setCommunicationErrorCaption(messageSource.getMessage("vaadin.communicationError.Caption", null, Locale.getDefault()));
+        setCommunicationErrorMessage(messageSource.getMessage("vaadin.communicationError.Message", null, Locale.getDefault()));
+    }
+}
+~~~~
+
 # Sample
 
 https://github.com/xpoft/spring-vaadin/tree/sample
@@ -151,6 +196,9 @@ mvn jetty:run
 Then go to http://locahost:9090
 
 # Changelog
+
+## 1.3.5
+- Add SystemMessages bean support. Now you can use Spring Beans as source for SystemMessages.
 
 ## 1.3
 - Vaadin 7.0.0.beta3
