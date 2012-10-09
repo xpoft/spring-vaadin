@@ -5,6 +5,8 @@ Vaadin 7.x supports only.
 
 Current version: Vaadin 7.0.0.beta3
 
+https://vaadin.com/ru/directory#addon/springvaadinintegration
+
 # Servlet
 
 beanName - Spring bean name of root UI.
@@ -117,8 +119,8 @@ pom.xml
 ...
     <repositories>
         <repository>
-            <id>xpoft-spring-vaadin</id>
-            <url>https://github.com/xpoft/spring-vaadin/raw/master/repository</url>
+            <id>vaadin-addons</id>
+            <url>http://maven.vaadin.com/vaadin-addons</url>
         </repository>
     </repositories>
 

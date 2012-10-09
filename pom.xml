@@ -19,6 +19,7 @@
     </properties>
 
     <repositories>
+        <!-- For Vaadin betas -->
         <repository>
             <id>vaadin</id>
             <url>https://oss.sonatype.org/content/repositories/vaadin/</url>
@@ -65,5 +66,44 @@
             <url>file:///${basedir}/repository</url>
         </repository>
     </distributionManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+
+                    <useDefaultManifestFile>true</useDefaultManifestFile>
+
+                    <archive>
+                        <manifestEntries>
+                            <Vaadin-Package-Version>1</Vaadin-Package-Version>
+                            <Implementation-Title>SpringVaadinIntegration</Implementation-Title>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
