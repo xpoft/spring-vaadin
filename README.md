@@ -5,7 +5,7 @@ Vaadin 7.x supports only.
 
 Current version: Vaadin 7.0.0.beta3
 
-https://vaadin.com/ru/directory#addon/springvaadinintegration
+http://vaadin.com/addon/springvaadinintegration
 
 # Servlet
 
