@@ -195,6 +195,22 @@ mvn jetty:run
 
 Then go to http://locahost:9090
 
+# Other libraries
+## https://vaadin.com/ru/directory#addon/spring-integration
+Simple library.
+Vaadin 7.0+ not supported. Last update: Apr 26, 2011
+
+## https://vaadin.com/ru/directory#addon/contextual-object-lookup
+Simple library.
+Vaadin 7.0+ not supported. Last update: Sep 5, 2011
+
+## https://vaadin.com/ru/directory#addon/mvp-and-uibinder-spring-integration
+Vaadin 7.0+ not supported. Last update: Sep 14, 2010
+
+## https://vaadin.com/ru/directory#addon/spring-stuff
+Very good library. It was the best (and only one) library for integration with Spring.
+Vaadin 7.0+ supported. Last update: Aug 28, 2012
+
 # Changelog
 
 ## 1.3.5

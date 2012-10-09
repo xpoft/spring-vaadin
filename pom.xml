@@ -7,6 +7,8 @@
     <groupId>ru.xpoft.vaadin</groupId>
     <artifactId>spring-vaadin-integration</artifactId>
     <version>1.3.5</version>
+    <name>SpringVaadinIntegration</name>
+    <url>https://github.com/xpoft/spring-vaadin</url>
 
     <properties>
         <maven.compiler.source>1.7</maven.compiler.source>
