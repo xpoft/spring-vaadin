@@ -13,6 +13,7 @@ import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.core.type.filter.RegexPatternTypeFilter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -86,7 +87,7 @@ public class DiscoveryNavigator extends Navigator
             int excludeHash = 0;
             if (excludePackages != null && excludePackages.length > 0)
             {
-                excludeHash = excludePackages.hashCode();
+                excludeHash = Arrays.hashCode(excludePackages);
             }
             String hash = basePackage.hashCode() + " " + excludeHash;
             if (!viewsCache.containsKey(hash))
