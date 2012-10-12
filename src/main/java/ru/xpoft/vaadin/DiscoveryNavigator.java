@@ -150,6 +150,12 @@ public class DiscoveryNavigator extends Navigator
     @Override
     public void navigateTo(String navigationState)
     {
+        // We can't bind NULL
+        if (navigationState == null)
+        {
+            navigationState = "";
+        }
+
         // fix Vaadin
         if (navigationState.startsWith("!"))
         {

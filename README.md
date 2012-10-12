@@ -142,7 +142,44 @@ You should use "transient" attribute for ApplicationContext and other's context'
 ~~~~
 
 # SystemMessages customization
+You can use Spring MessageSource as source for Vaadin SystemMessages.
+And wow! Now you can use localized messages!
 
+You should reload page after changing language. Texts for CommunicationError and AuthenticationError implements on page loading. It's Vaadin.
+
+## Use default SpringSystemMessagesProvider
+
+web.xml
+~~~~ xml
+    <servlet>
+        <servlet-name>Vaadin Application</servlet-name>
+        <servlet-class>ru.xpoft.vaadin.SpringVaadinServlet</servlet-class>
+        ...
+        <init-param>
+            <param-name>systemMessagesBeanName</param-name>
+            <param-value>DEFAULT</param-value>
+        </init-param>
+    </servlet>
+~~~~
+
+in your Spring messages:
+
+~~~~ txt
+vaadin.sessionExpired.Caption = ...
+vaadin.sessionExpired.Message = ...
+vaadin.sessionExpired.URL = ...
+vaadin.sessionExpired.NotificationEnabled = ... (true / false)
+~~~~
+
+Other message types: communicationError, authenticationError, internalError, outOfSync, cookiesDisabled
+
+~~~~ txt
+vaadin.communicationError.Caption = ...
+~~~~
+
+If some translations don't found, it will use default Vaadin message. So you can translate "caption" only, for example.
+
+## Use your bean (more difficult way)
 web.xml
 ~~~~ xml
     <servlet>
@@ -156,34 +193,8 @@ web.xml
     </servlet>
 ~~~~
 
-Simple implementation:
-~~~~ java
-@Component
-public class CustomSystemMessages extends CustomizedSystemMessages
-{
-    public CustomSystemMessages()
-    {
-        setCommunicationErrorCaption("myCommunicationErrorCaption");
-        setCommunicationErrorMessage("myCommunicationErrorMessage");
-    }
-}
-~~~~
+CustomSystemMessages class must implements SpringSystemMessagesProvider interface.
 
-Enhanced implementation:
-~~~~ java
-@Component
-public class CustomSystemMessages extends CustomizedSystemMessages
-{
-    @Autowired
-    private transient MessageSource messageSource;
-
-    @PostConstruct
-    public void PostConstruct()
-    {
-        setCommunicationErrorCaption(messageSource.getMessage("vaadin.communicationError.Caption", null, Locale.getDefault()));
-        setCommunicationErrorMessage(messageSource.getMessage("vaadin.communicationError.Message", null, Locale.getDefault()));
-    }
-}
 ~~~~
 
 # Sample
@@ -214,6 +225,11 @@ Very good library. It was the best (and only one) library for integration with S
 Vaadin 7.0+ supported. Last update: Aug 28, 2012
 
 # Changelog
+
+## 1.4
+- Vaadin 7.0.0.beta4 support
+- Enhanced SystemMessages bean support. Now you can use localized messages! Simple & quick. See sample project.
+- Use can use VaadinMessageSource, it's more simple way to use Spring MessageSource
 
 ## 1.3.5
 - Add SystemMessages bean support. Now you can use Spring Beans as source for SystemMessages.

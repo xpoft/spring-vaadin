@@ -68,17 +68,14 @@ public class SpringVaadinServlet extends VaadinServlet
     @Override
     protected VaadinServletService createServletService(DeploymentConfiguration deploymentConfiguration)
     {
-        final VaadinServletService service =
-                (systemMessagesBeanName != null && systemMessagesBeanName != "")
-                        ? new CustomVaadinServletService(this, deploymentConfiguration)
-                        : super.createServletService(deploymentConfiguration);
+        final VaadinServletService service = super.createServletService(deploymentConfiguration);
 
-        if (service instanceof CustomVaadinServletService)
+        // Spring system messages provider
+        if (systemMessagesBeanName != null && systemMessagesBeanName != "")
         {
-            logger.debug("use CustomVaadinServletService");
-            SystemMessages systemMessages = applicationContext.getBean(systemMessagesBeanName, SystemMessages.class);
-            logger.debug("get SystemMessages bean: {}", systemMessages);
-            ((CustomVaadinServletService) service).setSystemMessages(systemMessages);
+            SpringVaadinSystemMessagesProvider messagesProvider = new SpringVaadinSystemMessagesProvider(applicationContext, systemMessagesBeanName);
+            logger.debug("set SpringVaadinSystemMessagesProvider");
+            service.setSystemMessagesProvider(messagesProvider);
         }
 
         // Add UI provider for new session
