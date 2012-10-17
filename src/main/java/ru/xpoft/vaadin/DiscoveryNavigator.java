@@ -47,17 +47,16 @@ public class DiscoveryNavigator extends Navigator
 
                 logger.debug("view name: \"{}\", class: {}", new Object[]{vaadinView.value(), clazz});
                 viewsCache.put(vaadinView.value(), clazz);
-
-                addBeanView(vaadinView.value(), clazz);
             }
         }
         else
         {
             logger.debug("discovery views from cache");
-            for(Map.Entry<String, Class<? extends View>>view : viewsCache.entrySet())
-            {
-                addBeanView(view.getKey(), view.getValue());
-            }
+        }
+
+        for(Map.Entry<String, Class<? extends View>>view : viewsCache.entrySet())
+        {
+            addBeanView(view.getKey(), view.getValue());
         }
     }
 

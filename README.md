@@ -125,7 +125,7 @@ pom.xml
         <dependency>
             <groupId>ru.xpoft.vaadin</groupId>
             <artifactId>spring-vaadin-integration</artifactId>
-            <version>1.4.5</version>
+            <version>1.4.7</version>
         </dependency>
     </dependencies>
 ~~~~
@@ -222,6 +222,9 @@ Very good library. It was the best (and only one) library for integration with S
 Vaadin 7.0+ supported. Last update: Aug 28, 2012
 
 # Changelog
+
+## 1.4.7
+fix caching
 
 ## 1.4.6
 - Simplify DiscoveryNavigator. It uses Spring Root Context to autowiring Vaadin Views, and AspectJ for non-managed classes.
