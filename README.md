@@ -223,7 +223,7 @@ Vaadin 7.0+ supported. Last update: Aug 28, 2012
 
 # Changelog
 
-## 1.4.5
+## 1.4.6
 - Simplify DiscoveryNavigator. It uses Spring Root Context to autowiring Vaadin Views, and AspectJ for non-managed classes.
 - You should add '<context:spring-configured/>' to your spring config. See sample project.
 - Now serialization & deserialization work perfect.
