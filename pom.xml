@@ -117,7 +117,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
-                    <useDefaultManifestFile>true</useDefaultManifestFile>
+                    <useDefaultManifestFile>false</useDefaultManifestFile>
 
                     <archive>
                         <manifestEntries>
