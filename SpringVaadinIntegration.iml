@@ -14,11 +14,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/annotations" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/target/apidocs" />
       <excludeFolder url="file://$MODULE_DIR$/target/classes" />
-      <excludeFolder url="file://$MODULE_DIR$/target/javadoc-bundle-options" />
-      <excludeFolder url="file://$MODULE_DIR$/target/maven-archiver" />
-      <excludeFolder url="file://$MODULE_DIR$/target/surefire" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -46,20 +42,20 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:3.1.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context-support:3.1.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjrt:1.7.0" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-orm:3.1.2.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:3.1.2.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-tx:3.1.2.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.hibernate:hibernate-entitymanager:3.6.8.Final" level="project" />
-    <orderEntry type="library" name="Maven: org.hibernate:hibernate-core:3.6.8.Final" level="project" />
-    <orderEntry type="library" name="Maven: antlr:antlr:2.7.6" level="project" />
-    <orderEntry type="library" name="Maven: commons-collections:commons-collections:3.1" level="project" />
-    <orderEntry type="library" name="Maven: dom4j:dom4j:1.6.1" level="project" />
-    <orderEntry type="library" name="Maven: org.hibernate:hibernate-commons-annotations:3.2.0.Final" level="project" />
-    <orderEntry type="library" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final" level="project" />
-    <orderEntry type="library" name="Maven: javax.transaction:jta:1.1" level="project" />
-    <orderEntry type="library" name="Maven: cglib:cglib:2.2" level="project" />
-    <orderEntry type="library" name="Maven: asm:asm:3.1" level="project" />
-    <orderEntry type="library" name="Maven: javassist:javassist:3.12.0.GA" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.springframework:spring-orm:3.1.2.RELEASE" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.springframework:spring-jdbc:3.1.2.RELEASE" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.springframework:spring-tx:3.1.2.RELEASE" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.hibernate:hibernate-entitymanager:3.6.8.Final" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.hibernate:hibernate-core:3.6.8.Final" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: antlr:antlr:2.7.6" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: commons-collections:commons-collections:3.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: dom4j:dom4j:1.6.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.hibernate:hibernate-commons-annotations:3.2.0.Final" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.transaction:jta:1.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: cglib:cglib:2.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: asm:asm:3.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: javassist:javassist:3.12.0.GA" level="project" />
   </component>
 </module>
 
