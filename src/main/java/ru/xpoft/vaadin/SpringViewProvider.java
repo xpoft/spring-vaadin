@@ -2,13 +2,17 @@ package ru.xpoft.vaadin;
 
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.ApplicationContext;
 
 /**
  * @author xpoft
  */
+@Configurable(preConstruction = true)
 public class SpringViewProvider extends Navigator.ClassBasedViewProvider
 {
+    @Autowired
     private transient ApplicationContext applicationContext;
 
     /**
@@ -18,10 +22,9 @@ public class SpringViewProvider extends Navigator.ClassBasedViewProvider
      * @param viewName  name of the views to create (not null)
      * @param viewClass class to instantiate when a view is requested (not null)
      */
-    public SpringViewProvider(ApplicationContext applicationContext, String viewName, Class<? extends View> viewClass)
+    public SpringViewProvider(String viewName, Class<? extends View> viewClass)
     {
         super(viewName, viewClass);
-        this.applicationContext = applicationContext;
     }
 
     @Override

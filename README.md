@@ -3,7 +3,7 @@ Spring Vaadin Integration
 
 Vaadin 7.x supports only.
 
-Current version: Vaadin 7.0.0.beta3
+Current version: Vaadin 7.0.0.beta4
 
 http://vaadin.com/addon/springvaadinintegration
 
@@ -64,9 +64,6 @@ Using example:
 public class MyUI extends UI
 {
     @Autowired
-    private transient ApplicationContext applicationContext;
-
-    @Autowired
     private MyClass myClass;
 
     @Override
@@ -75,7 +72,7 @@ public class MyUI extends UI
         Navigator.SimpleViewDisplay display = new Navigator.SimpleViewDisplay();
         setContent(display);
 
-        DiscoveryNavigator navigator = new DiscoveryNavigator(applicationContext, UI.getCurrent(), display, "ru.xpoft");
+        DiscoveryNavigator navigator = new DiscoveryNavigator(UI.getCurrent(), display);
         navigator.navigateTo(UI.getCurrent().getPage().getFragment());
     }
 }
@@ -128,7 +125,7 @@ pom.xml
         <dependency>
             <groupId>ru.xpoft.vaadin</groupId>
             <artifactId>spring-vaadin-integration</artifactId>
-            <version>1.3</version>
+            <version>1.4.5</version>
         </dependency>
     </dependencies>
 ~~~~
@@ -225,6 +222,11 @@ Very good library. It was the best (and only one) library for integration with S
 Vaadin 7.0+ supported. Last update: Aug 28, 2012
 
 # Changelog
+
+## 1.4.5
+- Simplify DiscoveryNavigator. It uses Spring Root Context to autowiring Vaadin Views, and AspectJ for non-managed classes.
+- You should add '<context:spring-configured/>' to your spring config. See sample project.
+- Now serialization & deserialization work perfect.
 
 ## 1.4
 - Vaadin 7.0.0.beta4 support

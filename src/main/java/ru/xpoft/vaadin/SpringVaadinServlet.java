@@ -84,53 +84,10 @@ public class SpringVaadinServlet extends VaadinServlet
             @Override
             public void sessionInit(SessionInitEvent event) throws ServiceException
             {
-                event.getSession().addUIProvider(new SpringUIProvider(applicationContext, vaadinBeanName));
+                event.getSession().addUIProvider(new SpringUIProvider(vaadinBeanName));
             }
         });
 
         return service;
-    }
-
-    /**
-     * We need replace spring context for deserialized beans
-     *
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
-    @Override
-    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
-        HttpSession httpSession = request.getSession();
-        if (httpSession != null)
-        {
-            Date checkDate = (Date) httpSession.getAttribute(REQUEST_CHECK_DATE);
-            if (checkDate == null || checkDate.before(servletStartDate))
-            {
-                try
-                {
-                    VaadinServiceSession vaadinSession = getService().findVaadinSession(createVaadinRequest(request));
-                    for (UIProvider uiProvider : vaadinSession.getUIProviders())
-                    {
-                        // Spring UI provider with NULL context
-                        // Replace context
-                        if (uiProvider instanceof SpringUIProvider && ((SpringUIProvider) uiProvider).getApplicationContext() == null)
-                        {
-                            vaadinSession.removeUIProvider(uiProvider);
-                            vaadinSession.addUIProvider(new SpringUIProvider(applicationContext, vaadinBeanName));
-                        }
-                    }
-                }
-                catch (ServiceException | SessionExpiredException e)
-                {
-                    throw new RuntimeException(e);
-                }
-            }
-
-            httpSession.setAttribute(REQUEST_CHECK_DATE, servletStartDate);
-        }
-
-        super.service(request, response);
     }
 }
