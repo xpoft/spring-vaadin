@@ -10,10 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.ApplicationContext;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author xpoft
@@ -22,6 +21,7 @@ import java.util.concurrent.ConcurrentMap;
 public class DiscoveryNavigator extends Navigator
 {
     private static Logger logger = LoggerFactory.getLogger(DiscoveryNavigator.class);
+    private static final Map<String, Class<? extends View>> viewsCache = Collections.synchronizedMap(new HashMap<String, Class<? extends View>>());
 
     @Autowired
     private transient ApplicationContext applicationContext;
@@ -30,21 +30,34 @@ public class DiscoveryNavigator extends Navigator
     {
         super(ui, display);
 
-        logger.debug("discovery views");
-
-        Map<String, Object> map = applicationContext.getBeansWithAnnotation(VaadinView.class);
-        for (Map.Entry<String, Object> entry : map.entrySet())
+        if (viewsCache.isEmpty())
         {
-            VaadinView vaadinView = entry.getValue().getClass().getAnnotation(VaadinView.class);
-            Class clazz = entry.getValue().getClass();
-            if (!View.class.isAssignableFrom(clazz))
-            {
-                logger.warn("Class {} with view name \"{}\" isn't instance of View", new Object[]{clazz, vaadinView.value()});
-                continue;
-            }
+            logger.debug("discovery views from spring context");
 
-            addBeanView(vaadinView.value(), clazz);
-            logger.debug("key: {}, value: {}", new Object[]{vaadinView.value(), clazz});
+            Map<String, Object> map = applicationContext.getBeansWithAnnotation(VaadinView.class);
+            for (Map.Entry<String, Object> entry : map.entrySet())
+            {
+                VaadinView vaadinView = entry.getValue().getClass().getAnnotation(VaadinView.class);
+                Class clazz = entry.getValue().getClass();
+                if (!View.class.isAssignableFrom(clazz))
+                {
+                    logger.warn("Class {} with view name \"{}\" isn't instance of View", new Object[]{clazz, vaadinView.value()});
+                    continue;
+                }
+
+                logger.debug("view name: \"{}\", class: {}", new Object[]{vaadinView.value(), clazz});
+                viewsCache.put(vaadinView.value(), clazz);
+
+                addBeanView(vaadinView.value(), clazz);
+            }
+        }
+        else
+        {
+            logger.debug("discovery views from cache");
+            for(Map.Entry<String, Class<? extends View>>view : viewsCache.entrySet())
+            {
+                addBeanView(view.getKey(), view.getValue());
+            }
         }
     }
 
