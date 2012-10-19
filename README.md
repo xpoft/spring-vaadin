@@ -72,7 +72,7 @@ public class MyUI extends UI
         Navigator.SimpleViewDisplay display = new Navigator.SimpleViewDisplay();
         setContent(display);
 
-        DiscoveryNavigator navigator = new DiscoveryNavigator(UI.getCurrent(), display);
+        DiscoveryNavigator navigator = new DiscoveryNavigator(this, getContent());
         navigator.navigateTo(UI.getCurrent().getPage().getFragment());
     }
 }
