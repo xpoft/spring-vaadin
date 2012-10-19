@@ -69,9 +69,6 @@ public class MyUI extends UI
     @Override
     protected void init(final VaadinRequest request)
     {
-        Navigator.SimpleViewDisplay display = new Navigator.SimpleViewDisplay();
-        setContent(display);
-
         DiscoveryNavigator navigator = new DiscoveryNavigator(this, getContent());
         navigator.navigateTo(UI.getCurrent().getPage().getFragment());
     }
