@@ -223,6 +223,10 @@ Vaadin 7.0+ supported. Last update: Aug 28, 2012
 
 # Changelog
 
+## 1.5
+- Vaadin 7.0.0.beta5
+- Java 6.0 support
+
 ## 1.4.7
 fix caching
 
