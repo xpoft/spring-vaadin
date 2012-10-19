@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 /**
  * @author xpoft
  */
-@Configurable(preConstruction = true)
+@Configurable
 public class SpringViewProvider extends Navigator.ClassBasedViewProvider
 {
     @Autowired

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="AjcSettings">
     <option name="ajcPath" value="$MAVEN_REPOSITORY$/org/aspectj/aspectjtools/1.7.0/aspectjtools-1.7.0.jar" />
-    <option name="cmdLineParams" value="-target 1.7" />
+    <option name="cmdLineParams" value="-target 1.6" />
     <option name="explicitAspectPath" value="true" />
   </component>
   <component name="CompilerConfiguration">
@@ -23,7 +23,7 @@
     <annotationProcessing enabled="false" useClasspath="true" />
   </component>
   <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_STRING" value="-target 1.7 -encoding utf-8" />
+    <option name="ADDITIONAL_OPTIONS_STRING" value="-target 1.6 -encoding utf-8" />
   </component>
 </project>
 

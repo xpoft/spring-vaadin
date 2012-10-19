@@ -18,7 +18,7 @@ public class SpringVaadinSystemMessagesProvider implements SystemMessagesProvide
 {
     public static final String DEFAULT_IMPLEMENTATION = "DEFAULT";
     private static Logger logger = LoggerFactory.getLogger(SpringVaadinSystemMessagesProvider.class);
-    private final ConcurrentMap<Locale, SystemMessages> systemMessagesCache = new ConcurrentHashMap<>();
+    private final ConcurrentMap<Locale, SystemMessages> systemMessagesCache = new ConcurrentHashMap<Locale, SystemMessages>();
     private SpringSystemMessagesProvider systemMessagesBean;
 
     public SpringVaadinSystemMessagesProvider(ApplicationContext applicationContext, String systemMessagesBeanName)
