@@ -8,10 +8,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -28,10 +24,6 @@ public class SpringVaadinServlet extends VaadinServlet
      * Servlet parameter name for UI bean
      */
     private static final String SYSTEM_MESSAGES_BEAN_NAME_PARAMETER = "systemMessagesBeanName";
-    /**
-     * Session attribute for save check date
-     */
-    private static final String REQUEST_CHECK_DATE = SpringVaadinServlet.class.getCanonicalName() + "_check_date";
     /**
      * Spring Application Context
      */
@@ -60,6 +52,11 @@ public class SpringVaadinServlet extends VaadinServlet
         {
             systemMessagesBeanName = servletConfig.getInitParameter(SYSTEM_MESSAGES_BEAN_NAME_PARAMETER);
             logger.debug("found SYSTEM_MESSAGES_BEAN_NAME_PARAMETER: {}", systemMessagesBeanName);
+        }
+
+        if (SpringApplicationContext.getApplicationContext() == null)
+        {
+            SpringApplicationContext.setApplicationContext(applicationContext);
         }
 
         super.init(servletConfig);

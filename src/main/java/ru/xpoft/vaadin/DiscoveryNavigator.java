@@ -6,26 +6,47 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.context.ApplicationContext;
 
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * @author xpoft
  */
-@Configurable(preConstruction = true)
-public class DiscoveryNavigator extends Navigator
+public class DiscoveryNavigator extends Navigator implements ViewScopedContainer
 {
-    private static Logger logger = LoggerFactory.getLogger(DiscoveryNavigator.class);
-    private static final Map<String, Class<? extends View>> views = Collections.synchronizedMap(new HashMap<String, Class<? extends View>>());
+    class ViewCache implements Serializable
+    {
+        private final String name;
+        private final Class<? extends View> clazz;
+        private final String scope;
 
-    @Autowired
-    private transient ApplicationContext applicationContext;
+        ViewCache(String name, Class<? extends View> clazz, String scope)
+        {
+            this.name = name;
+            this.clazz = clazz;
+            this.scope = scope;
+        }
+
+        public String getName()
+        {
+            return name;
+        }
+
+        public Class<? extends View> getClazz()
+        {
+            return clazz;
+        }
+
+        public String getScope()
+        {
+            return scope;
+        }
+    }
+
+    private static Logger logger = LoggerFactory.getLogger(DiscoveryNavigator.class);
+    private static final List<ViewCache> views = Collections.synchronizedList(new ArrayList<ViewCache>());
+    private final Map<String, View> viewScoped = Collections.synchronizedMap(new HashMap<String, View>());
 
     public DiscoveryNavigator(UI ui, ComponentContainer display)
     {
@@ -36,17 +57,19 @@ public class DiscoveryNavigator extends Navigator
             logger.debug("discovery views from spring context");
 
             long start = Calendar.getInstance().getTimeInMillis();
-            String[] beansName = applicationContext.getBeanDefinitionNames();
+            String[] beansName = SpringApplicationContext.getApplicationContext().getBeanDefinitionNames();
             for (String beanName : beansName)
             {
-                Class beanClass = applicationContext.getType(beanName);
+                Class beanClass = SpringApplicationContext.getApplicationContext().getType(beanName);
                 if (beanClass.isAnnotationPresent(VaadinView.class) && View.class.isAssignableFrom(beanClass))
                 {
                     VaadinView vaadinView = (VaadinView) beanClass.getAnnotation(VaadinView.class);
                     String viewName = vaadinView.value();
+                    String viewScope = vaadinView.scope();
 
-                    views.put(viewName, beanClass);
-                    logger.debug("view name: \"{}\", class: {}", new Object[]{viewName, beanClass});
+                    ViewCache viewCache = new ViewCache(viewName, beanClass, viewScope);
+                    views.add(viewCache);
+                    logger.debug("view name: \"{}\", class: {}, scope: {}", new Object[]{viewName, beanClass, viewScope});
                 }
             }
 
@@ -58,13 +81,18 @@ public class DiscoveryNavigator extends Navigator
             logger.debug("discovery views from cache");
         }
 
-        for (Map.Entry<String, Class<? extends View>> view : views.entrySet())
+        for (ViewCache view : views)
         {
-            addBeanView(view.getKey(), view.getValue());
+            addBeanView(view.name, view.clazz, view.scope);
         }
     }
 
     public void addBeanView(String viewName, Class<? extends View> viewClass)
+    {
+        addBeanView(viewName, viewClass, VaadinViewScopes.PROTOTYPE);
+    }
+
+    public void addBeanView(String viewName, Class<? extends View> viewClass, String scope)
     {
         // Check parameters
         if (viewName == null || viewClass == null)
@@ -73,7 +101,7 @@ public class DiscoveryNavigator extends Navigator
         }
 
         removeView(viewName);
-        addProvider(new SpringViewProvider(viewName, viewClass));
+        addProvider(new SpringViewProvider(viewName, viewClass, scope, this));
     }
 
     @Override
@@ -94,5 +122,28 @@ public class DiscoveryNavigator extends Navigator
         {
             super.navigateTo(navigationState);
         }
+    }
+
+    @Override
+    public View getView(String name, Class<? extends View> clazz, String scope)
+    {
+        if (scope.equals(VaadinViewScopes.PROTOTYPE))
+        {
+            return SpringApplicationContext.getApplicationContext().getBean(clazz);
+        }
+        else if (scope.equals(VaadinViewScopes.UI))
+        {
+            if (viewScoped.containsKey(name))
+            {
+                return viewScoped.get(name);
+            }
+
+            View view = SpringApplicationContext.getApplicationContext().getBean(clazz);
+            viewScoped.put(name, view);
+
+            return view;
+        }
+
+        return null;
     }
 }

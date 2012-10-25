@@ -9,11 +9,10 @@ import org.springframework.context.ApplicationContext;
 /**
  * @author xpoft
  */
-@Configurable
 public class SpringViewProvider extends Navigator.ClassBasedViewProvider
 {
-    @Autowired
-    private transient ApplicationContext applicationContext;
+    private final String scope;
+    private final ViewScopedContainer scopedContainer;
 
     /**
      * Create a new view provider which creates new view instances based on
@@ -22,9 +21,11 @@ public class SpringViewProvider extends Navigator.ClassBasedViewProvider
      * @param viewName  name of the views to create (not null)
      * @param viewClass class to instantiate when a view is requested (not null)
      */
-    public SpringViewProvider(String viewName, Class<? extends View> viewClass)
+    public SpringViewProvider(String viewName, Class<? extends View> viewClass, String scope, ViewScopedContainer scopedContainer)
     {
         super(viewName, viewClass);
+        this.scope = scope;
+        this.scopedContainer = scopedContainer;
     }
 
     @Override
@@ -32,7 +33,7 @@ public class SpringViewProvider extends Navigator.ClassBasedViewProvider
     {
         if (getViewName().equals(viewName))
         {
-            return applicationContext.getBean(getViewClass());
+            return scopedContainer.getView(viewName, getViewClass(), scope);
         }
 
         return null;

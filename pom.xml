@@ -6,7 +6,7 @@
 
     <groupId>ru.xpoft.vaadin</groupId>
     <artifactId>spring-vaadin-integration</artifactId>
-    <version>1.5</version>
+    <version>1.5.5</version>
     <name>SpringVaadinIntegration</name>
     <url>https://github.com/xpoft/spring-vaadin</url>
 
@@ -16,7 +16,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>3.1.2.RELEASE</spring.version>
         <vaadin.version>7.0.0.beta5</vaadin.version>
-        <aspectj.version>1.7.0</aspectj.version>
     </properties>
 
     <repositories>
@@ -59,32 +58,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- AOP support -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aspects</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>${aspectj.version}</version>
-        </dependency>
-
-        <!-- can't determine annotations of missing type org.springframework.transaction.annotation.Transactional -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>${spring.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- can't determine annotations of missing type javax.persistence.Entity -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>3.6.8.Final</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 
     <distributionManagement>
@@ -117,7 +90,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
-                    <useDefaultManifestFile>false</useDefaultManifestFile>
+                    <useDefaultManifestFile>true</useDefaultManifestFile>
 
                     <archive>
                         <manifestEntries>
@@ -128,40 +101,6 @@
                     </archive>
                 </configuration>
 
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>aspectj-maven-plugin</artifactId>
-                <version>1.4</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                    <!-- fix "Bad type signature" in test-compile -->
-                    <weaveWithAspectsInMainSourceFolder>false</weaveWithAspectsInMainSourceFolder>
-                    <weaveDependencies>
-                        <weaveDependency>
-                            <groupId>org.springframework</groupId>
-                            <artifactId>spring-aspects</artifactId>
-                        </weaveDependency>
-                    </weaveDependencies>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>test-compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <!-- Intellij IDEA AspectJ support -->
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjtools</artifactId>
-                        <version>${aspectj.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
