@@ -243,7 +243,7 @@ Vaadin 7.0+ supported. Last update: Aug 28, 2012
 
 ## 1.5.6
 - Vaadin 7.0.0.beta6
-- replace AspectJ with static access to the application context
+- replace AspectJ with static access to the application context. Now you can remove '<context:spring-configured/>'
 - add view scopes: prototype (default) and ui
 
 ## 1.5
