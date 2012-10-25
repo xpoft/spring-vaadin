@@ -3,7 +3,7 @@ Spring Vaadin Integration
 
 Vaadin 7.x supports only.
 
-Current version: Vaadin 7.0.0.beta4
+Current version: Vaadin 7.0.0.beta6
 
 http://vaadin.com/addon/springvaadinintegration
 
@@ -106,6 +106,27 @@ public class MainView extends Panel implements View
 }
 ~~~~
 
+# UI scoped view
+This view has UI scope.
+It's created only once in UI, and than call only "enter" method.
+
+See sample project.
+
+~~~~ java
+@Component
+@Scope("prototype")
+@VaadinView(value = UIScopedView.NAME, scope = VaadinViewScopes.UI)
+public class UIScopedView extends Panel implements View
+{
+    ...
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent)
+    {
+        ...
+    }
+}
+~~~~
+
 # Maven
 
 pom.xml
@@ -122,7 +143,7 @@ pom.xml
         <dependency>
             <groupId>ru.xpoft.vaadin</groupId>
             <artifactId>spring-vaadin-integration</artifactId>
-            <version>1.4.7</version>
+            <version>1.5.6</version>
         </dependency>
     </dependencies>
 ~~~~
