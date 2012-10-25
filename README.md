@@ -241,6 +241,11 @@ Vaadin 7.0+ supported. Last update: Aug 28, 2012
 
 # Changelog
 
+## 1.5.6
+- Vaadin 7.0.0.beta6
+- replace AspectJ with static access to the application context
+- add view scopes: prototype (default) and ui
+
 ## 1.5
 - Vaadin 7.0.0.beta5
 - Java 6.0 support
