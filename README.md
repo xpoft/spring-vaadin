@@ -106,16 +106,16 @@ public class MainView extends Panel implements View
 }
 ~~~~
 
-# UI scoped view
-This view has UI scope.
-It's created only once in UI, and than call only "enter" method.
+# View cache
+You can cache View in UI instance.
+It created only once for every UI instance.
 
 See sample project.
 
 ~~~~ java
 @Component
 @Scope("prototype")
-@VaadinView(value = UIScopedView.NAME, scope = VaadinViewScopes.UI)
+@VaadinView(value = UIScopedView.NAME, cached = true)
 public class UIScopedView extends Panel implements View
 {
     ...
@@ -240,6 +240,9 @@ Very good library. It was the best (and only one) library for integration with S
 Vaadin 7.0+ supported. Last update: Aug 28, 2012
 
 # Changelog
+
+## 1.5.7
+- String VaadinView.scope renamed to boolean VaadinView.cached. Be careful.
 
 ## 1.5.6
 - Vaadin 7.0.0.beta6

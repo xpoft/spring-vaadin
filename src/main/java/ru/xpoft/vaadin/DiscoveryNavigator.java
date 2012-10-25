@@ -13,19 +13,19 @@ import java.util.*;
 /**
  * @author xpoft
  */
-public class DiscoveryNavigator extends Navigator implements ViewScopedContainer
+public class DiscoveryNavigator extends Navigator implements ViewCacheContainer
 {
     class ViewCache implements Serializable
     {
         private final String name;
         private final Class<? extends View> clazz;
-        private final String scope;
+        private final boolean cached;
 
-        ViewCache(String name, Class<? extends View> clazz, String scope)
+        ViewCache(String name, Class<? extends View> clazz, boolean cached)
         {
             this.name = name;
             this.clazz = clazz;
-            this.scope = scope;
+            this.cached = cached;
         }
 
         public String getName()
@@ -38,9 +38,9 @@ public class DiscoveryNavigator extends Navigator implements ViewScopedContainer
             return clazz;
         }
 
-        public String getScope()
+        public boolean isCached()
         {
-            return scope;
+            return cached;
         }
     }
 
@@ -65,11 +65,11 @@ public class DiscoveryNavigator extends Navigator implements ViewScopedContainer
                 {
                     VaadinView vaadinView = (VaadinView) beanClass.getAnnotation(VaadinView.class);
                     String viewName = vaadinView.value();
-                    String viewScope = vaadinView.scope();
+                    boolean viewCached = vaadinView.cached();
 
-                    ViewCache viewCache = new ViewCache(viewName, beanClass, viewScope);
+                    ViewCache viewCache = new ViewCache(viewName, beanClass, viewCached);
                     views.add(viewCache);
-                    logger.debug("view name: \"{}\", class: {}, scope: {}", new Object[]{viewName, beanClass, viewScope});
+                    logger.debug("view name: \"{}\", class: {}, viewCached: {}", new Object[]{viewName, beanClass, viewCached});
                 }
             }
 
@@ -83,16 +83,16 @@ public class DiscoveryNavigator extends Navigator implements ViewScopedContainer
 
         for (ViewCache view : views)
         {
-            addBeanView(view.name, view.clazz, view.scope);
+            addBeanView(view.name, view.clazz, view.cached);
         }
     }
 
     public void addBeanView(String viewName, Class<? extends View> viewClass)
     {
-        addBeanView(viewName, viewClass, VaadinViewScopes.PROTOTYPE);
+        addBeanView(viewName, viewClass, false);
     }
 
-    public void addBeanView(String viewName, Class<? extends View> viewClass, String scope)
+    public void addBeanView(String viewName, Class<? extends View> viewClass, boolean cached)
     {
         // Check parameters
         if (viewName == null || viewClass == null)
@@ -101,7 +101,7 @@ public class DiscoveryNavigator extends Navigator implements ViewScopedContainer
         }
 
         removeView(viewName);
-        addProvider(new SpringViewProvider(viewName, viewClass, scope, this));
+        addProvider(new SpringViewProvider(viewName, viewClass, cached, this));
     }
 
     @Override
@@ -125,13 +125,9 @@ public class DiscoveryNavigator extends Navigator implements ViewScopedContainer
     }
 
     @Override
-    public View getView(String name, Class<? extends View> clazz, String scope)
+    public View getView(String name, Class<? extends View> clazz, boolean cached)
     {
-        if (scope.equals(VaadinViewScopes.PROTOTYPE))
-        {
-            return SpringApplicationContext.getApplicationContext().getBean(clazz);
-        }
-        else if (scope.equals(VaadinViewScopes.UI))
+        if (cached)
         {
             if (viewScoped.containsKey(name))
             {
@@ -144,6 +140,6 @@ public class DiscoveryNavigator extends Navigator implements ViewScopedContainer
             return view;
         }
 
-        return null;
+        return SpringApplicationContext.getApplicationContext().getBean(clazz);
     }
 }

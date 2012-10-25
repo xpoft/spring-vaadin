@@ -13,5 +13,5 @@ import java.lang.annotation.Target;
 public @interface VaadinView
 {
     String value() default "";
-    String scope() default VaadinViewScopes.PROTOTYPE;
+    boolean cached() default false;
 }

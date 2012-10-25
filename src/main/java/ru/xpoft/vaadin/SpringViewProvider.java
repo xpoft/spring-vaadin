@@ -2,17 +2,14 @@ package ru.xpoft.vaadin;
 
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.context.ApplicationContext;
 
 /**
  * @author xpoft
  */
 public class SpringViewProvider extends Navigator.ClassBasedViewProvider
 {
-    private final String scope;
-    private final ViewScopedContainer scopedContainer;
+    private final boolean cached;
+    private final ViewCacheContainer cacheContainer;
 
     /**
      * Create a new view provider which creates new view instances based on
@@ -21,11 +18,11 @@ public class SpringViewProvider extends Navigator.ClassBasedViewProvider
      * @param viewName  name of the views to create (not null)
      * @param viewClass class to instantiate when a view is requested (not null)
      */
-    public SpringViewProvider(String viewName, Class<? extends View> viewClass, String scope, ViewScopedContainer scopedContainer)
+    public SpringViewProvider(String viewName, Class<? extends View> viewClass, boolean cached, ViewCacheContainer cacheContainer)
     {
         super(viewName, viewClass);
-        this.scope = scope;
-        this.scopedContainer = scopedContainer;
+        this.cached = cached;
+        this.cacheContainer = cacheContainer;
     }
 
     @Override
@@ -33,7 +30,7 @@ public class SpringViewProvider extends Navigator.ClassBasedViewProvider
     {
         if (getViewName().equals(viewName))
         {
-            return scopedContainer.getView(viewName, getViewClass(), scope);
+            return cacheContainer.getView(viewName, getViewClass(), cached);
         }
 
         return null;
