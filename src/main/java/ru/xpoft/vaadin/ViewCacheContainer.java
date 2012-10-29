@@ -7,5 +7,5 @@ import com.vaadin.navigator.View;
  */
 public interface ViewCacheContainer
 {
-    public View getView(String name, Class<? extends View> clazz, boolean cached);
+    public View getView(String name, String beanName, boolean cached);
 }

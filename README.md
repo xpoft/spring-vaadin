@@ -212,9 +212,31 @@ CustomSystemMessages class must implements SpringSystemMessagesProvider interfac
 
 ~~~~
 
-# Sample
+# Apache Shiro support
+Use ShiroSecurityNavigator instead of DiscoveryNavigator.
+ShiroSecurityNavigator check roles in @RequiresRoles of View class. If user doesn't have all roles, View is not visible.
 
-https://github.com/xpoft/spring-vaadin/tree/sample
+See sample project
+~~~~ java
+    ShiroSecurityNavigator navigator = new ShiroSecurityNavigator(this, getContent());
+    navigator.navigateTo(UI.getCurrent().getPage().getFragment());
+~~~~
+
+~~~~
+@Component
+@Scope("prototype")
+@VaadinView(RoleUserView.NAME)
+@RequiresRoles("user")
+public class RoleUserView extends Panel implements View
+{
+    public static final String NAME = "role_user";
+...
+}
+~~~~
+
+# Sample project
+
+https://github.com/xpoft/vaadin-samples
 ~~~~
 git clone git://github.com/xpoft/spring-vaadin.git -b sample spring-vaadin
 cd spring-vaadin
@@ -240,6 +262,9 @@ Very good library. It was the best (and only one) library for integration with S
 Vaadin 7.0+ supported. Last update: Aug 28, 2012
 
 # Changelog
+
+## 1.6
+- Add Apache Shiro support. Simple check for roles.
 
 ## 1.5.7
 - String VaadinView.scope renamed to boolean VaadinView.cached. Be careful.

@@ -15,15 +15,17 @@ import java.util.*;
  */
 public class DiscoveryNavigator extends Navigator implements ViewCacheContainer
 {
-    class ViewCache implements Serializable
+    protected class ViewCache implements Serializable
     {
         private final String name;
+        private final String beanName;
         private final Class<? extends View> clazz;
         private final boolean cached;
 
-        ViewCache(String name, Class<? extends View> clazz, boolean cached)
+        ViewCache(String name, String beanName, Class<? extends View> clazz, boolean cached)
         {
             this.name = name;
+            this.beanName = beanName;
             this.clazz = clazz;
             this.cached = cached;
         }
@@ -31,6 +33,11 @@ public class DiscoveryNavigator extends Navigator implements ViewCacheContainer
         public String getName()
         {
             return name;
+        }
+
+        public String getBeanName()
+        {
+            return beanName;
         }
 
         public Class<? extends View> getClazz()
@@ -45,7 +52,7 @@ public class DiscoveryNavigator extends Navigator implements ViewCacheContainer
     }
 
     private static Logger logger = LoggerFactory.getLogger(DiscoveryNavigator.class);
-    private static final List<ViewCache> views = Collections.synchronizedList(new ArrayList<ViewCache>());
+    protected static final List<ViewCache> views = Collections.synchronizedList(new ArrayList<ViewCache>());
     private final Map<String, View> viewScoped = Collections.synchronizedMap(new HashMap<String, View>());
 
     public DiscoveryNavigator(UI ui, ComponentContainer display)
@@ -67,7 +74,7 @@ public class DiscoveryNavigator extends Navigator implements ViewCacheContainer
                     String viewName = vaadinView.value();
                     boolean viewCached = vaadinView.cached();
 
-                    ViewCache viewCache = new ViewCache(viewName, beanClass, viewCached);
+                    ViewCache viewCache = new ViewCache(viewName, beanName, beanClass, viewCached);
                     views.add(viewCache);
                     logger.debug("view name: \"{}\", class: {}, viewCached: {}", new Object[]{viewName, beanClass, viewCached});
                 }
@@ -81,10 +88,7 @@ public class DiscoveryNavigator extends Navigator implements ViewCacheContainer
             logger.debug("discovery views from cache");
         }
 
-        for (ViewCache view : views)
-        {
-            addBeanView(view.name, view.clazz, view.cached);
-        }
+        addCachedBeans();
     }
 
     public void addBeanView(String viewName, Class<? extends View> viewClass)
@@ -92,6 +96,13 @@ public class DiscoveryNavigator extends Navigator implements ViewCacheContainer
         addBeanView(viewName, viewClass, false);
     }
 
+    /**
+     * Add bean manually
+     *
+     * @param viewName
+     * @param viewClass
+     * @param cached
+     */
     public void addBeanView(String viewName, Class<? extends View> viewClass, boolean cached)
     {
         // Check parameters
@@ -100,8 +111,33 @@ public class DiscoveryNavigator extends Navigator implements ViewCacheContainer
             throw new IllegalArgumentException("view and viewClass must be non-null");
         }
 
+        String[] beanNames = SpringApplicationContext.getApplicationContext().getBeanNamesForType(viewClass);
+        if (beanNames.length != 0)
+        {
+            throw new IllegalArgumentException("cant't resolve bean name for class :" + viewClass.getName());
+        }
+
         removeView(viewName);
-        addProvider(new SpringViewProvider(viewName, viewClass, cached, this));
+        addBeanView(viewName, beanNames[0], viewClass, cached);
+    }
+
+    protected void addCachedBeans()
+    {
+        for (ViewCache view : views)
+        {
+            addBeanView(view.name, view.beanName, view.clazz, view.cached);
+        }
+    }
+
+    /**
+     * It's prefer to use BeanName instead of Class
+     * Because bean can be wrapper. Like SpringSecurity
+     * Caused by: org.springframework.beans.factory.BeanNotOfRequiredTypeException: Bean named 'testView' must be of type [...testView], but was actually of type [$Proxy26]
+     *
+     */
+    protected void addBeanView(String viewName, String beanName, Class<? extends View> viewClass, boolean cached)
+    {
+        addProvider(new SpringViewProvider(viewName, beanName, viewClass, cached, this));
     }
 
     @Override
@@ -124,8 +160,16 @@ public class DiscoveryNavigator extends Navigator implements ViewCacheContainer
         }
     }
 
+    /**
+     * Better way
+     *
+     * @param name
+     * @param beanName
+     * @param cached
+     * @return
+     */
     @Override
-    public View getView(String name, Class<? extends View> clazz, boolean cached)
+    public View getView(String name, String beanName, boolean cached)
     {
         if (cached)
         {
@@ -134,12 +178,12 @@ public class DiscoveryNavigator extends Navigator implements ViewCacheContainer
                 return viewScoped.get(name);
             }
 
-            View view = SpringApplicationContext.getApplicationContext().getBean(clazz);
+            View view = (View) SpringApplicationContext.getApplicationContext().getBean(beanName);
             viewScoped.put(name, view);
 
             return view;
         }
 
-        return SpringApplicationContext.getApplicationContext().getBean(clazz);
+        return (View) SpringApplicationContext.getApplicationContext().getBean(beanName);
     }
 }
