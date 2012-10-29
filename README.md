@@ -236,7 +236,8 @@ public class RoleUserView extends Panel implements View
 
 # Sample project
 
-https://github.com/xpoft/vaadin-samples
+https://github.com/xpoft/vaadin-samples#spring-vaadin-integration
+
 ~~~~
 git clone git://github.com/xpoft/spring-vaadin.git -b sample spring-vaadin
 cd spring-vaadin
