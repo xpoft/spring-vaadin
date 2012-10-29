@@ -143,7 +143,7 @@ pom.xml
         <dependency>
             <groupId>ru.xpoft.vaadin</groupId>
             <artifactId>spring-vaadin-integration</artifactId>
-            <version>1.5.6</version>
+            <version>1.6.2</version>
         </dependency>
     </dependencies>
 ~~~~
@@ -214,7 +214,7 @@ CustomSystemMessages class must implements SpringSystemMessagesProvider interfac
 
 # Apache Shiro support
 Use ShiroSecurityNavigator instead of DiscoveryNavigator.
-ShiroSecurityNavigator check roles in @RequiresRoles of View class. If user doesn't have all roles, View is not visible.
+ShiroSecurityNavigator user @RequiresRoles and @RequiresPermissions of View class. If user doesn't have permission, View is not visible.
 
 See sample project
 ~~~~ java
