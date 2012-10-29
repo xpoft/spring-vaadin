@@ -6,6 +6,7 @@ import com.vaadin.ui.UI;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.xpoft.vaadin.DiscoveryNavigator;
 import ru.xpoft.vaadin.SpringApplicationContext;
@@ -20,6 +21,8 @@ import java.util.*;
  */
 public class ShiroSecurityNavigator extends DiscoveryNavigator
 {
+    private static Logger logger = LoggerFactory.getLogger(ShiroSecurityNavigator.class);
+
     public ShiroSecurityNavigator(UI ui, ComponentContainer display)
     {
         super(ui, display);
@@ -28,19 +31,15 @@ public class ShiroSecurityNavigator extends DiscoveryNavigator
     @Override
     protected void addCachedBeans()
     {
-        // Remove denied beans
-        Iterator<ViewCache> iterator = views.iterator();
-        while (iterator.hasNext())
+        for (ViewCache view : views)
         {
-            ViewCache viewCache = iterator.next();
-            if (!hasAccess(viewCache.getClazz()))
+            // Only allowed beans
+            if (hasAccess(view.getClazz()))
             {
-                LoggerFactory.getLogger(this.getClass()).debug("remove: {}", viewCache.getClazz());
-                iterator.remove();
+                logger.debug("view name: \"{}\", class: {}, viewCached: {}", new Object[]{view.getName(), view.getClazz(), view.isCached()});
+                addBeanView(view.getName(), view.getBeanName(), view.getClazz(), view.isCached());
             }
         }
-
-        super.addCachedBeans();
     }
 
     @Override
@@ -48,7 +47,7 @@ public class ShiroSecurityNavigator extends DiscoveryNavigator
     {
         if (!hasAccess(viewClass))
         {
-                return;
+            return;
         }
 
         super.addBeanView(viewName, viewClass, cached);
