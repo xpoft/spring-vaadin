@@ -264,6 +264,9 @@ Vaadin 7.0+ supported. Last update: Aug 28, 2012
 
 # Changelog
 
+## 1.6.2
+- Add @RequiresPermissions support
+
 ## 1.6
 - Add Apache Shiro support. Simple check for roles.
 
