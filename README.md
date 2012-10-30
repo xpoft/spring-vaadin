@@ -210,8 +210,6 @@ web.xml
 
 CustomSystemMessages class must implements SpringSystemMessagesProvider interface.
 
-~~~~
-
 # Apache Shiro support
 Use ShiroSecurityNavigator instead of DiscoveryNavigator.
 ShiroSecurityNavigator user @RequiresRoles and @RequiresPermissions of View class. If user doesn't have permission, View is not visible.
