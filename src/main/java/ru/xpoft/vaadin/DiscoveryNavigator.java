@@ -112,7 +112,7 @@ public class DiscoveryNavigator extends Navigator implements ViewCacheContainer
         }
 
         String[] beanNames = SpringApplicationContext.getApplicationContext().getBeanNamesForType(viewClass);
-        if (beanNames.length != 0)
+        if (beanNames.length != 1)
         {
             throw new IllegalArgumentException("cant't resolve bean name for class :" + viewClass.getName());
         }
