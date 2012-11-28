@@ -1,7 +1,10 @@
 package ru.xpoft.vaadin.security;
 
+import com.vaadin.navigator.NavigationStateManager;
 import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.SingleComponentContainer;
 import com.vaadin.ui.UI;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
@@ -25,9 +28,24 @@ public class ShiroSecurityNavigator extends DiscoveryNavigator
 {
     private static Logger logger = LoggerFactory.getLogger(ShiroSecurityNavigator.class);
 
-    public ShiroSecurityNavigator(UI ui, ComponentContainer display)
+    public ShiroSecurityNavigator(UI ui, ComponentContainer container)
+    {
+        super(ui, container);
+    }
+
+    public ShiroSecurityNavigator(UI ui, SingleComponentContainer container)
+    {
+        super(ui, container);
+    }
+
+    public ShiroSecurityNavigator(UI ui, ViewDisplay display)
     {
         super(ui, display);
+    }
+
+    public ShiroSecurityNavigator(UI ui, NavigationStateManager stateManager, ViewDisplay display)
+    {
+        super(ui, stateManager, display);
     }
 
     @Override

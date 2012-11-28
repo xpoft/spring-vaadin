@@ -3,7 +3,7 @@ Spring Vaadin Integration
 
 Vaadin 7.x supports only.
 
-Current version: Vaadin 7.0.0.beta6
+Current version: Vaadin 7.0.0.beta10
 
 http://vaadin.com/addon/springvaadinintegration
 
@@ -69,8 +69,8 @@ public class MyUI extends UI
     @Override
     protected void init(final VaadinRequest request)
     {
-        DiscoveryNavigator navigator = new DiscoveryNavigator(this, getContent());
-        navigator.navigateTo(UI.getCurrent().getPage().getFragment());
+        DiscoveryNavigator navigator = new DiscoveryNavigator(this, this);
+        navigator.navigateTo(UI.getCurrent().getPage().getUriFragment());
     }
 }
 ~~~~
@@ -143,7 +143,7 @@ pom.xml
         <dependency>
             <groupId>ru.xpoft.vaadin</groupId>
             <artifactId>spring-vaadin-integration</artifactId>
-            <version>1.6.2</version>
+            <version>1.6.5</version>
         </dependency>
     </dependencies>
 ~~~~
@@ -261,6 +261,14 @@ Very good library. It was the best (and only one) library for integration with S
 Vaadin 7.0+ supported. Last update: Aug 28, 2012
 
 # Changelog
+
+## 1.6.5
+- Vaadin 7.0.0.beta10
+  Vaadin changes. Now UI.getContent() return instance of Component.
+     Replace:
+        DiscoveryNavigator navigator = new DiscoveryNavigator(this, getContent());
+     With:
+        DiscoveryNavigator navigator = new DiscoveryNavigator(this, this);
 
 ## 1.6.2
 - Add @RequiresPermissions support

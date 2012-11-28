@@ -1,6 +1,7 @@
 package ru.xpoft.vaadin;
 
 import com.vaadin.server.SystemMessages;
+import com.vaadin.server.SystemMessagesInfo;
 import com.vaadin.server.SystemMessagesProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,8 +39,10 @@ public class SpringVaadinSystemMessagesProvider implements SystemMessagesProvide
     }
 
     @Override
-    public SystemMessages getSystemMessages(Locale locale)
+    public SystemMessages getSystemMessages(SystemMessagesInfo systemMessagesInfo)
     {
+        Locale locale = systemMessagesInfo.getLocale();
+
         if (systemMessagesCache.containsKey(locale))
         {
             return systemMessagesCache.get(locale);

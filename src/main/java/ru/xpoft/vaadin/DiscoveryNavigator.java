@@ -1,8 +1,11 @@
 package ru.xpoft.vaadin;
 
+import com.vaadin.navigator.NavigationStateManager;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.SingleComponentContainer;
 import com.vaadin.ui.UI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,10 +58,32 @@ public class DiscoveryNavigator extends Navigator implements ViewCacheContainer
     protected static final List<ViewCache> views = Collections.synchronizedList(new ArrayList<ViewCache>());
     private final Map<String, View> viewScoped = Collections.synchronizedMap(new HashMap<String, View>());
 
-    public DiscoveryNavigator(UI ui, ComponentContainer display)
+    public DiscoveryNavigator(UI ui, ComponentContainer container)
+    {
+        super(ui, container);
+        initViews();
+    }
+
+    public DiscoveryNavigator(UI ui, SingleComponentContainer container)
+    {
+        super(ui, container);
+        initViews();
+    }
+
+    public DiscoveryNavigator(UI ui, ViewDisplay display)
     {
         super(ui, display);
+        initViews();
+    }
 
+    public DiscoveryNavigator(UI ui, NavigationStateManager stateManager, ViewDisplay display)
+    {
+        super(ui, stateManager, display);
+        initViews();
+    }
+
+    protected void initViews()
+    {
         if (views.isEmpty())
         {
             logger.debug("discovery views from spring context");
