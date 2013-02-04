@@ -3,7 +3,7 @@ Spring Vaadin Integration
 
 Vaadin 7.x supports only.
 
-Current version: Vaadin 7.0.0.beta10
+Current version: Vaadin 7.0.0
 
 http://vaadin.com/addon/springvaadinintegration
 
@@ -143,7 +143,7 @@ pom.xml
         <dependency>
             <groupId>ru.xpoft.vaadin</groupId>
             <artifactId>spring-vaadin-integration</artifactId>
-            <version>1.6.5</version>
+            <version>1.6.6</version>
         </dependency>
     </dependencies>
 ~~~~
@@ -261,6 +261,9 @@ Very good library. It was the best (and only one) library for integration with S
 Vaadin 7.0+ supported. Last update: Aug 28, 2012
 
 # Changelog
+
+## 1.6.5
+- Vaadin 7.0.0
 
 ## 1.6.5
 - Vaadin 7.0.0.beta10
