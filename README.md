@@ -307,10 +307,10 @@ Vaadin 7.0+ supported. Last update: Aug 28, 2012
 
 # Changelog
 
-## 1.6.6
+## 1.6.7
 - Add portlet support (SpringVaadinPortlet). Thx to matthiasgasser
 
-## 1.6.5
+## 1.6.6
 - Vaadin 7.0.0
 
 ## 1.6.5
