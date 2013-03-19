@@ -7,19 +7,16 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.SingleComponentContainer;
 import com.vaadin.ui.UI;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.*;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.xpoft.vaadin.DiscoveryNavigator;
-import ru.xpoft.vaadin.SpringApplicationContext;
 
-import java.util.*;
+import java.util.Arrays;
 
 /**
- * Uses @RequiresRoles and @RequiresPermissions annotations. You don't need AspectJ
+ * Uses @RequiresRoles, @RequiresPermissions, @RequiresAuthentication, @RequiresGuest, @RequiresUser annotations. You don't need AspectJ
  * Exclude views, that user doesn't have access
  *
  * @author xpoft
@@ -73,7 +70,13 @@ public class ShiroSecurityNavigator extends DiscoveryNavigator
         super.addBeanView(viewName, viewClass, cached);
     }
 
-    private boolean hasAccess(Class<?> clazz)
+    /**
+     * Check access for class
+     *
+     * @param clazz
+     * @return
+     */
+    public static boolean hasAccess(Class<?> clazz)
     {
         boolean isAllow = true;
 
@@ -144,6 +147,24 @@ public class ShiroSecurityNavigator extends DiscoveryNavigator
                     }
                 }
             }
+        }
+
+        if (isAllow && clazz.isAnnotationPresent(RequiresAuthentication.class))
+        {
+            Subject subject = SecurityUtils.getSubject();
+            isAllow = subject.isAuthenticated();
+        }
+
+        if (isAllow && clazz.isAnnotationPresent(RequiresGuest.class))
+        {
+            Subject subject = SecurityUtils.getSubject();
+            isAllow = subject.getPrincipals() == null;
+        }
+
+        if (isAllow && clazz.isAnnotationPresent(RequiresUser.class))
+        {
+            Subject subject = SecurityUtils.getSubject();
+            isAllow = subject.getPrincipals() != null && !subject.getPrincipals().isEmpty();
         }
 
         return isAllow;

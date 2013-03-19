@@ -255,7 +255,7 @@ CustomSystemMessages class must implements SpringSystemMessagesProvider interfac
 
 # Apache Shiro support
 Use ShiroSecurityNavigator instead of DiscoveryNavigator.
-ShiroSecurityNavigator user @RequiresRoles and @RequiresPermissions of View class. If user doesn't have permission, View is not visible.
+ShiroSecurityNavigator uses @RequiresRoles, @RequiresPermissions, @RequiresAuthentication, @RequiresGuest, @RequiresUser of View class. If user doesn't have permission, View is not visible.
 
 See sample project
 ~~~~ java
@@ -304,6 +304,10 @@ Very good library. It was the best (and only one) library for integration with S
 Vaadin 7.0+ supported. Last update: Aug 28, 2012
 
 # Changelog
+
+## 1.7
+- VaadinMessageSource. Use VaadinSession instead of UI
+- ShiroSecurityNavigator. Add @RequiresAuthentication, @RequiresGuest, @RequiresUser support.
 
 ## 1.6.8
 - NPE fix in DiscoveryNavigator. Thx to mpilone.
