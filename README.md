@@ -186,7 +186,7 @@ pom.xml
         <dependency>
             <groupId>ru.xpoft.vaadin</groupId>
             <artifactId>spring-vaadin-integration</artifactId>
-            <version>1.6.8</version>
+            <version>1.7</version>
         </dependency>
     </dependencies>
 ~~~~
