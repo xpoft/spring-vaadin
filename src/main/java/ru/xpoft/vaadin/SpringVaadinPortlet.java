@@ -5,7 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.portlet.context.PortletApplicationContextUtils;
 
+import javax.portlet.PortletConfig;
+import javax.portlet.PortletException;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import java.util.Date;
@@ -13,9 +16,9 @@ import java.util.Date;
 /**
  * @author xpoft
  */
-public class SpringVaadinServlet extends VaadinServlet
+public class SpringVaadinPortlet extends VaadinPortlet
 {
-    private static Logger logger = LoggerFactory.getLogger(SpringVaadinServlet.class);
+    private static Logger logger = LoggerFactory.getLogger(SpringVaadinPortlet.class);
     /**
      * Servlet parameter name for UI bean
      */
@@ -35,9 +38,9 @@ public class SpringVaadinServlet extends VaadinServlet
     private String systemMessagesBeanName = "";
 
     @Override
-    public void init(ServletConfig config) throws ServletException
+    public void init(PortletConfig config) throws PortletException
     {
-        applicationContext = WebApplicationContextUtils.getWebApplicationContext(config.getServletContext());
+        applicationContext = PortletApplicationContextUtils.getWebApplicationContext(config.getPortletContext());
         if (config.getInitParameter(BEAN_NAME_PARAMETER) != null)
         {
             vaadinBeanName = config.getInitParameter(BEAN_NAME_PARAMETER);
@@ -59,9 +62,9 @@ public class SpringVaadinServlet extends VaadinServlet
     }
 
     @Override
-    protected VaadinServletService createServletService(DeploymentConfiguration deploymentConfiguration)
+    protected VaadinPortletService createPortletService(DeploymentConfiguration deploymentConfiguration)
     {
-        final VaadinServletService service = super.createServletService(deploymentConfiguration);
+        final VaadinPortletService service = super.createPortletService(deploymentConfiguration);
 
         // Spring system messages provider
         if (systemMessagesBeanName != null && systemMessagesBeanName != "")

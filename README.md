@@ -33,6 +33,51 @@ web.xml
     </servlet-mapping>
 ~~~~~
 
+# Portlet
+
+beanName - Spring bean name of root UI.
+
+portlet.xml
+~~~~~ xml
+<portlet>
+        <portlet-name>Test Portlet</portlet-name>
+        <display-name>Test Portlet</display-name>
+
+        <portlet-class>ru.xpoft.vaadin.SpringVaadinPortlet</portlet-class>
+        <init-param>
+            <name>beanName</name>
+            <value>myUI</value>
+        </init-param>
+
+        <!--
+          To enable displaying multiple Vaadin portlets on a page,
+          they should all use the same widgetset. In that case, the
+          widgetset can be configured on the portal level (parameter
+          vaadin.widgetset) or here for each portlet.
+        -->
+        <!--
+        <init-param>
+            <name>widgetset</name>
+            <value>com.vaadin.portal.gwt.PortalDefaultWidgetSet</value>
+        </init-param>
+        -->
+
+        <!-- Supported portlet modes and content types. -->
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <!-- <portlet-mode>edit</portlet-mode> -->
+            <!-- <portlet-mode>help</portlet-mode> -->
+        </supports>
+
+        <!-- Not always required but Liferay uses these. -->
+        <portlet-info>
+            <title>Test Portlet</title>
+            <short-title>Test Portlet</short-title>
+        </portlet-info>
+    </portlet>
+~~~~~
+
 UI class example
 
 ~~~~ java
@@ -261,6 +306,9 @@ Very good library. It was the best (and only one) library for integration with S
 Vaadin 7.0+ supported. Last update: Aug 28, 2012
 
 # Changelog
+
+## 1.6.6
+- Add portlet support (SpringVaadinPortlet). Thx to matthiasgasser
 
 ## 1.6.5
 - Vaadin 7.0.0
