@@ -32,4 +32,15 @@ class SpringUIProvider extends UIProvider
     {
         return (Class<? extends UI>) SpringApplicationContext.getApplicationContext().getType(vaadinBeanName);
     }
+
+    @Override
+    public boolean isPreservedOnRefresh(UICreateEvent event)
+    {
+        if (!SpringApplicationContext.getApplicationContext().isPrototype(vaadinBeanName))
+        {
+            return true;
+        }
+
+        return super.isPreservedOnRefresh(event);
+    }
 }

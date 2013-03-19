@@ -133,6 +133,14 @@
     <option name="gradleHome" value="C:/Progs/gradle" />
   </component>
   <component name="IdProvider" IDEtalkID="46A689C6C1F0D3E3DCD0CBB6C0D0FFBE" />
+  <component name="IvyIDEA.ProjectSettings">
+    <option name="artifactTypeSettings">
+      <ArtifactTypeSettings />
+    </option>
+    <option name="propertiesSettings">
+      <PropertiesSettings />
+    </option>
+  </component>
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" />
     <option name="OPTION_SCOPE" value="protected" />

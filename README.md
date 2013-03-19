@@ -149,6 +149,35 @@ public class MainView extends Panel implements View
 }
 ~~~~
 
+# UI scopes
+
+## Prototype scope
+It's the same as class without @PreserveOnRefresh. Create new instance for each new page.
+
+@Scope("prototype")
+public class MyUI extends UI
+{
+    ...
+}
+
+## Session scope
+It will store UI in the session and it'll be reused.
+
+@Scope("session")
+public class MyUI extends UI
+{
+    ...
+}
+
+## Singleton scope (default for Spring)
+I don't know why you want to use it, but you can do that. Everybody will have the same UI.
+
+public class MyUI extends UI
+{
+    ...
+}
+
+
 # View cache
 You can cache View in UI instance.
 It created only once for every UI instance.
@@ -287,23 +316,10 @@ mvn jetty:run
 
 Then go to http://locahost:9090
 
-# Other libraries
-## https://vaadin.com/ru/directory#addon/spring-integration
-Simple library.
-Vaadin 7.0+ not supported. Last update: Apr 26, 2011
-
-## https://vaadin.com/ru/directory#addon/contextual-object-lookup
-Simple library.
-Vaadin 7.0+ not supported. Last update: Sep 5, 2011
-
-## https://vaadin.com/ru/directory#addon/mvp-and-uibinder-spring-integration
-Vaadin 7.0+ not supported. Last update: Sep 14, 2010
-
-## https://vaadin.com/ru/directory#addon/spring-stuff
-Very good library. It was the best (and only one) library for integration with Spring.
-Vaadin 7.0+ supported. Last update: Aug 28, 2012
-
 # Changelog
+
+## 1.7.1
+- Now you can use @Scope("session") for UI, instead of @PreserveOnRefresh. Bean with "prototype" scope it's the same as class without @PreserveOnRefresh (create new instance for each new page). Other types of scope will store UI in the session and it'll be reused.
 
 ## 1.7
 - VaadinMessageSource. Use VaadinSession instead of UI
