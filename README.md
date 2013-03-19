@@ -3,8 +3,6 @@ Spring Vaadin Integration
 
 Vaadin 7.x supports only.
 
-Current version: Vaadin 7.0.0
-
 http://vaadin.com/addon/springvaadinintegration
 
 # Servlet
@@ -188,7 +186,7 @@ pom.xml
         <dependency>
             <groupId>ru.xpoft.vaadin</groupId>
             <artifactId>spring-vaadin-integration</artifactId>
-            <version>1.6.6</version>
+            <version>1.6.8</version>
         </dependency>
     </dependencies>
 ~~~~
@@ -307,8 +305,11 @@ Vaadin 7.0+ supported. Last update: Aug 28, 2012
 
 # Changelog
 
+## 1.6.8
+- NPE fix in DiscoveryNavigator. Thx to mpilone.
+
 ## 1.6.7
-- Add portlet support (SpringVaadinPortlet). Thx to matthiasgasser
+- Add portlet support (SpringVaadinPortlet). Thx to matthiasgasser.
 
 ## 1.6.6
 - Vaadin 7.0.0

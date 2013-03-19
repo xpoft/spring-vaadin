@@ -93,7 +93,9 @@ public class DiscoveryNavigator extends Navigator implements ViewCacheContainer
             for (String beanName : beansName)
             {
                 Class beanClass = SpringApplicationContext.getApplicationContext().getType(beanName);
-                if (beanClass.isAnnotationPresent(VaadinView.class) && View.class.isAssignableFrom(beanClass))
+
+                // Check for a valid bean class because "abstract" beans may not have a bean class defined.
+                if (beanClass != null && beanClass.isAnnotationPresent(VaadinView.class) && View.class.isAssignableFrom(beanClass))
                 {
                     VaadinView vaadinView = (VaadinView) beanClass.getAnnotation(VaadinView.class);
                     String viewName = vaadinView.value();
