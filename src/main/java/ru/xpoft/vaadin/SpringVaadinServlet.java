@@ -53,9 +53,6 @@ public class SpringVaadinServlet extends VaadinServlet
     {
         final VaadinServletService service = super.createServletService(deploymentConfiguration);
 
-        String uiProviderProperty = service.getDeploymentConfiguration().getApplicationOrSystemProperty(Constants.SERVLET_PARAMETER_UI_PROVIDER, null);
-        logger.debug("uiProviderProperty: " + uiProviderProperty);
-
         // Spring system messages provider
         if (systemMessagesBeanName != null && systemMessagesBeanName != "")
         {
@@ -63,6 +60,8 @@ public class SpringVaadinServlet extends VaadinServlet
             logger.debug("set SpringVaadinSystemMessagesProvider");
             service.setSystemMessagesProvider(messagesProvider);
         }
+
+        String uiProviderProperty = service.getDeploymentConfiguration().getApplicationOrSystemProperty(Constants.SERVLET_PARAMETER_UI_PROVIDER, null);
 
         // Add SpringUIProvider if custom provider doesn't defined.
         if (uiProviderProperty == null)

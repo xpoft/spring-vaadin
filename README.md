@@ -319,7 +319,7 @@ Then go to http://locahost:9090
 # Changelog
 
 ## 1.7.2
-- Add custom UI provider support (servlet "UIProvider" property). Thx to mpilone.
+- Add custom UI providers support (servlet "UIProvider" property). Thx to mpilone.
 
 ## 1.7.1
 - Now you can use @Scope("session") for UI, instead of @PreserveOnRefresh. Bean with "prototype" scope it's the same as class without @PreserveOnRefresh (create new instance for each new page). Other types of scope will store UI in the session and it'll be reused.
