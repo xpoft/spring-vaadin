@@ -17,11 +17,7 @@ public class SpringVaadinServlet extends VaadinServlet
 {
     private static Logger logger = LoggerFactory.getLogger(SpringVaadinServlet.class);
     /**
-     * Servlet parameter name for UI bean
-     */
-    private static final String BEAN_NAME_PARAMETER = "beanName";
-    /**
-     * Servlet parameter name for UI bean
+     * Servlet parameter name for system message bean
      */
     private static final String SYSTEM_MESSAGES_BEAN_NAME_PARAMETER = "systemMessagesBeanName";
     /**
@@ -29,20 +25,14 @@ public class SpringVaadinServlet extends VaadinServlet
      */
     private transient ApplicationContext applicationContext;
     /**
-     * UI bean name
+     * system message bean name
      */
-    private String vaadinBeanName = "ui";
     private String systemMessagesBeanName = "";
 
     @Override
     public void init(ServletConfig config) throws ServletException
     {
         applicationContext = WebApplicationContextUtils.getWebApplicationContext(config.getServletContext());
-        if (config.getInitParameter(BEAN_NAME_PARAMETER) != null)
-        {
-            vaadinBeanName = config.getInitParameter(BEAN_NAME_PARAMETER);
-            logger.debug("found BEAN_NAME_PARAMETER: {}", vaadinBeanName);
-        }
 
         if (config.getInitParameter(SYSTEM_MESSAGES_BEAN_NAME_PARAMETER) != null)
         {
@@ -63,6 +53,9 @@ public class SpringVaadinServlet extends VaadinServlet
     {
         final VaadinServletService service = super.createServletService(deploymentConfiguration);
 
+        String uiProviderProperty = service.getDeploymentConfiguration().getApplicationOrSystemProperty(Constants.SERVLET_PARAMETER_UI_PROVIDER, null);
+        logger.debug("uiProviderProperty: " + uiProviderProperty);
+
         // Spring system messages provider
         if (systemMessagesBeanName != null && systemMessagesBeanName != "")
         {
@@ -71,15 +64,18 @@ public class SpringVaadinServlet extends VaadinServlet
             service.setSystemMessagesProvider(messagesProvider);
         }
 
-        // Add UI provider for new session
-        service.addSessionInitListener(new SessionInitListener()
+        // Add SpringUIProvider if custom provider doesn't defined.
+        if (uiProviderProperty == null)
         {
-            @Override
-            public void sessionInit(SessionInitEvent event) throws ServiceException
+            service.addSessionInitListener(new SessionInitListener()
             {
-                event.getSession().addUIProvider(new SpringUIProvider(vaadinBeanName));
-            }
-        });
+                @Override
+                public void sessionInit(SessionInitEvent event) throws ServiceException
+                {
+                    event.getSession().addUIProvider(new SpringUIProvider());
+                }
+            });
+        }
 
         return service;
     }
