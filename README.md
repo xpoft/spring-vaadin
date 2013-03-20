@@ -215,7 +215,7 @@ pom.xml
         <dependency>
             <groupId>ru.xpoft.vaadin</groupId>
             <artifactId>spring-vaadin-integration</artifactId>
-            <version>1.7.2</version>
+            <version>1.7.3</version>
         </dependency>
     </dependencies>
 ~~~~
@@ -318,7 +318,7 @@ Then go to http://locahost:9090
 
 # Changelog
 
-## 1.7.2
+## 1.7.3
 - Add custom UI providers support (servlet "UIProvider" property). Thx to mpilone.
 
 ## 1.7.1
