@@ -425,3 +425,5 @@ you can exclude some packages
 ## 1.0
 - Autowiring UI
 - DiscoveryNavigator
+
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/ca5361eb2e8883eda63e0f3fddc5407c "githalytics.com")](http://githalytics.com/xpoft/spring-vaadin)
