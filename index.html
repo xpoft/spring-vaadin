@@ -4,7 +4,7 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="stylesheets/xpoft.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print"/>
     <!--[if lt IE 9]>
@@ -24,65 +24,307 @@
         </header>
 
         <!--
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/xpoft/spring-vaadin/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/xpoft/spring-vaadin/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/xpoft/spring-vaadin" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
+
 
         <hr>
+
         -->
 
+        <section id="downloads" class="clearfix">
+            <a href="http://vaadin.com/addon/springvaadinintegration" id="view-on-vaadin" class="button"><span>View on Vaadin</span></a>
+            <a href="https://github.com/xpoft/spring-vaadin" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
         <section id="main_content">
-            <!--
-            <h3>Welcome to GitHub Pages.</h3>
+            <h3>Introduction</h3>
 
-            <p>This automatic page generator is the easiest way to create beautiful pages for all of your projects.
-                Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer,
-                and publish. After your page is generated, you can check out the new branch:</p>
+            <p>This is an Vaadin Framework's add-on to integrate Spring Framework. It's the most popular add-on for Vaadin 7+ in the World :-)</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-    $ git fetch origin
-    $ git checkout gh-pages
+            <h3>Features</h3>
+
+            <ul>
+                <li>Spring Framework integration</li>
+                <li><a href="#ui_scopes">Spring scopes for UI: prototype, session, singleton</a></li>
+                <li><a href="#view_autowiring">Vaadin's Views Autowiring</a></li>
+                <li><a href="#view_caching">Vaadin's Views caching</a></li>
+                <li><a href="#system_messages">Vaadin's SystemMessages customization</a></li>
+                <li><a href="#apache_shiro">Apache Shiro integration</a></li>
+                <li><a href="#portlet">Portlet support</a></li>
+            </ul>
+
+            <h3>Quick start</h3>
+
+            <p>Maven's pom.xml</p>
+<pre><code>&lt;repositories&gt;
+    &lt;repository&gt;
+        &lt;id&gt;vaadin-addons&lt;/id&gt;
+        &lt;url&gt;http://maven.vaadin.com/vaadin-addons&lt;/url&gt;
+    &lt;/repository&gt;
+&lt;/repositories&gt;
+
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;ru.xpoft.vaadin&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-vaadin-integration&lt;/artifactId&gt;
+        &lt;version&gt;1.7.3&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
 </code></pre>
 
-            <p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+            <p>web.xml</p>
+<pre><code>&lt;servlet&gt;
+    &lt;servlet-name&gt;Test Application&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;ru.xpoft.vaadin.SpringVaadinServlet&lt;/servlet-class&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;beanName&lt;/param-name&gt;
+        &lt;param-value&gt;myUI&lt;/param-value&gt;
+    &lt;/init-param&gt;
+&lt;/servlet&gt;
 
-            <h3>Designer Templates</h3>
+&lt;!-- Bind as an ordinary VaadingServlet --&gt;
+&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;Test Application&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/app/*&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;Test Application&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/VAADIN/*&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;</code></pre>
 
-            <p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through
-                them. You can easily go back to edit your page before publishing. After publishing your page, you can
-                revisit the page generator and switch to another theme. Your Page content will be preserved if it
-                remained markdown format.</p>
+            <p>MyUI.java</p>
+<pre><code>@Component
+@Scope("prototype")
+@Theme("myTheme")
+public class MyUI extends UI
+{
+    private static Logger logger = LoggerFactory.getLogger(TrackerUI.class);
 
-            <h3>Rather Drive Stick?</h3>
+    @Autowired
+    private transient ApplicationContext applicationContext;
 
-            <p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your
-                repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages
-                support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll
-                makes it easy to create site-wide headers and footers without having to copy them across every page. It
-                also offers intelligent blog support and other advanced templating features.</p>
+    @Autowired
+    private MyClass myClass;
 
-            <h3>Authors and Contributors</h3>
+    ....
+}</code></pre>
 
-            <p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to
-                generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the
-                contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a
-                        href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a
-                        href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a
-                        href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+            <h3 id="sample_project">Sample project</h3>
 
-            <h3>Support or Contact</h3>
+            <p><a href="https://github.com/xpoft/vaadin-samples" target="_blank">See sample projects</a>.</p>
 
-            <p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a>
-                or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.
+            <h3>Description</h3>
+            <h4 id="ui_scopes">Spring scopes for UI</h4>
+
+            <h5>Prototype scope</h5>
+            <p>It's the same as class without @PreserveOnRefresh. Create new instance for each new page.</p>
+
+<pre><code>@Scope("prototype")
+public class MyUI extends UI
+{
+...
+}</code></pre>
+
+            <h5>Session scope</h5>
+            <p>It's the same as class with @PreserveOnRefresh. It will store UI in the user's session and it'll be reused.</p>
+
+<pre><code>@Scope("session")
+public class MyUI extends UI
+{
+...
+}</code></pre>
+
+            <h5>Singleton scope (default for Spring)</h5>
+            <p>I don't know why you want to use it, but you can do that. Everybody will have the same UI.</p>
+
+<pre><code>public class MyUI extends UI
+{
+...
+}</code></pre>
+
+            <h4 id="view_autowiring">Vaadin's Views Autowiring</h4>
+
+            <p>Vaadin Navigator. Standard way</p>
+<pre><code>// Create a navigator to control the views
+Navigator navigator = new Navigator(this, this);
+
+// Create and register the views
+navigator.addView("main", new MainView());
+navigator.addView("test", new TestView());
+</code></pre>
+
+<pre><code>public class TestView extends VerticalLayout implements View {
+...
+}
+</code></pre>
+
+<pre><code>public class MainView extends VerticalLayout implements View {
+...
+}
+</code></pre>
+
+            <p>New DiscoveryNavigator. It can autowiring views.</p>
+            <p>Use @VaadinView for views to set uri.</p>
+
+<pre><code>// Create a navigator to control the views
+DiscoveryNavigator navigator = new DiscoveryNavigator(this, this);
+</code></pre>
+
+<pre><code>@Component
+@Scope("prototype")
+@VaadinView(TestView.NAME)
+public class TestView extends VerticalLayout implements View {
+    public static final String NAME = "test";
+...
+}</code></pre>
+
+<pre><code>@Component
+@Scope("prototype")
+@VaadinView(MainView.NAME)
+public class MainView extends VerticalLayout implements View {
+    public static final String NAME = "main";
+...
+}</code></pre>
+
+            <p><a href="#sample_project">See sample project.</a></p>
+
+            <h4 id="view_caching">Vaadin's Views caching</h4>
+            <p>You can cache a View instance for UI. It something like "Vaadin UI" scope for a View. The View creates only once for an UI instance.</p>
+
+            <p>@VaadinView(..., cached = true)</p>
+
+<pre><code>@Component
+@Scope("prototype")
+@VaadinView(value = UIScopedView.NAME, cached = true)
+public class UIScopedView extends Panel implements View
+{
+...
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent)
+    {
+    ...
+    }
+}</code></pre>
+
+            <p><a href="#sample_project">See sample project.</a></p>
+
+            <h4 id="system_messages">Vaadin's SystemMessages customization</h4>
+
+            <p>You can use Spring MessageSource as source for Vaadin SystemMessages.</p>
+            <p>And wow! Now you can use localized messages!</p>
+
+            <p>You should reload page after changing language. Texts for CommunicationError and AuthenticationError implements on page loading. It's Vaadin.</p>
+
+            <h5>Use default SpringSystemMessagesProvide</h5>
+
+            <p>web.xml</p>
+
+<pre><code>&lt;servlet&gt;
+    &lt;servlet-name&gt;Vaadin Application&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;ru.xpoft.vaadin.SpringVaadinServlet&lt;/servlet-class&gt;
+    ...
+    &lt;init-param&gt;
+        &lt;param-name&gt;systemMessagesBeanName&lt;/param-name&gt;
+        &lt;param-value&gt;DEFAULT&lt;/param-value&gt;
+    &lt;/init-param&gt;
+&lt;/servlet&gt;</code></pre>
+
+            <p>in your Spring messages</p>
+
+<pre><code>vaadin.sessionExpired.Caption = ...
+vaadin.sessionExpired.Message = ...
+vaadin.sessionExpired.URL = ...
+vaadin.sessionExpired.NotificationEnabled = ... (true / false)</code></pre>
+
+            <p>Other message types: communicationError, authenticationError, internalError, outOfSync, cookiesDisabled</p>
+
+<pre><code>vaadin.communicationError.Caption = ...</code></pre>
+
+            <p>If some translations don't found, it will use default Vaadin message. So you can translate "caption" only, for example.</p>
+
+            <h5>Use your bean (more difficult way)</h5>
+            <p>web.xml</p>
+<pre><code>&lt;servlet&gt;
+    &lt;servlet-name&gt;Vaadin Application&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;ru.xpoft.vaadin.SpringVaadinServlet&lt;/servlet-class&gt;
+    ...
+    &lt;init-param&gt;
+        &lt;param-name&gt;systemMessagesBeanName&lt;/param-name&gt;
+        &lt;param-value&gt;customSystemMessages&lt;/param-value&gt;
+    &lt;/init-param&gt;
+&lt;/servlet&gt;</code></pre>
+
+            <p>CustomSystemMessages class must implements SpringSystemMessagesProvider interface.</p>
+
+            <h4 id="apache_shiro">Apache Shiro integration</h4>
+            <p>Use ShiroSecurityNavigator instead of DiscoveryNavigator.
+            ShiroSecurityNavigator supports annotations @RequiresRoles, @RequiresPermissions, @RequiresAuthentication, @RequiresGuest, @RequiresUser for a View class. If user doesn't have permission, the View is not visible.
             </p>
-        </section>
-            -->
+
+            ShiroSecurityNavigator in UI
+<pre><code>ShiroSecurityNavigator navigator = new ShiroSecurityNavigator(this, getContent());</code></pre>
+
+            View example
+<pre><code>@Component
+@Scope("prototype")
+@VaadinView(RoleUserView.NAME)
+@RequiresRoles("user")
+public class RoleUserView extends Panel implements View
+{
+public static final String NAME = "role_user";
+...
+}
+</code></pre>
+
+            <p><a href="#sample_project">See sample project.</a></p>
+
+            <h4 id="portlet">Portlet support</h4>
+
+            <p>portlet.xml</p>
+<pre><code>&lt;portlet&gt;
+    &lt;portlet-name&gt;Test Portlet&lt;/portlet-name&gt;
+    &lt;display-name&gt;Test Portlet&lt;/display-name&gt;
+
+    &lt;portlet-class&gt;ru.xpoft.vaadin.SpringVaadinPortlet&lt;/portlet-class&gt;
+    &lt;init-param&gt;
+        &lt;name&gt;beanName&lt;/name&gt;
+        &lt;value&gt;myUI&lt;/value&gt;
+    &lt;/init-param&gt;
+
+    &lt;!--
+    To enable displaying multiple Vaadin portlets on a page,
+    they should all use the same widgetset. In that case, the
+    widgetset can be configured on the portal level (parameter
+    vaadin.widgetset) or here for each portlet.
+    --&gt;
+    &lt;!--
+    &lt;init-param&gt;
+        &lt;name&gt;widgetset&lt;/name&gt;
+        &lt;value&gt;com.vaadin.portal.gwt.PortalDefaultWidgetSet&lt;/value&gt;
+    &lt;/init-param&gt;
+    --&gt;
+
+    &lt;!-- Supported portlet modes and content types. --&gt;
+    &lt;supports&gt;
+        &lt;mime-type&gt;text/html&lt;/mime-type&gt;
+        &lt;portlet-mode&gt;view&lt;/portlet-mode&gt;
+        &lt;!-- &lt;portlet-mode&gt;edit&lt;/portlet-mode&gt; --&gt;
+        &lt;!-- &lt;portlet-mode&gt;help&lt;/portlet-mode&gt; --&gt;
+    &lt;/supports&gt;
+
+    &lt;!-- Not always required but Liferay uses these. --&gt;
+    &lt;portlet-info&gt;
+        &lt;title&gt;Test Portlet&lt;/title&gt;
+        &lt;short-title&gt;Test Portlet&lt;/short-title&gt;
+    &lt;/portlet-info&gt;
+&lt;/portlet&gt;
+</code></pre>
+
         <footer>
-            SpringVaadinIntegration is maintained by <a href="https://github.com/xpoft">xpoft</a><br>
+            SpringVaadinIntegration is maintained by <a href="https://github.com/xpoft">xpoft</a>
+            <!--<br>
             This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a
                 href="http://twitter.com/jasonlong">Jason Long</a>.
+                -->
         </footer>
 
         <script type="text/javascript">
