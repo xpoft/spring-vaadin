@@ -8,9 +8,6 @@ import com.vaadin.ui.UI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.print.attribute.standard.DateTimeAtCompleted;
-import java.util.Date;
-
 /**
  * @author xpoft
  */
@@ -42,12 +39,17 @@ public class SpringUIProvider extends UIProvider
     @Override
     public boolean isPreservedOnRefresh(UICreateEvent event)
     {
-        if (!SpringApplicationContext.getApplicationContext().isPrototype(getUIBeanName(event.getRequest())))
+        if (isSessionScopedUI(event.getRequest()))
         {
             return true;
         }
 
         return super.isPreservedOnRefresh(event);
+    }
+
+    public boolean isSessionScopedUI(VaadinRequest request)
+    {
+        return !SpringApplicationContext.getApplicationContext().isPrototype(getUIBeanName(request));
     }
 
     /**

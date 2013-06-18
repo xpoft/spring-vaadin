@@ -2,7 +2,6 @@ package ru.xpoft.vaadin;
 
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
-import org.springframework.util.StringUtils;
 
 /**
  * @author xpoft

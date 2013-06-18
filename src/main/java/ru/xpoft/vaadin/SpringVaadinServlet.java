@@ -5,10 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.context.support.XmlWebApplicationContext;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import java.util.Date;
 
 /**
  * @author xpoft
@@ -20,6 +20,7 @@ public class SpringVaadinServlet extends VaadinServlet
      * Servlet parameter name for system message bean
      */
     private static final String SYSTEM_MESSAGES_BEAN_NAME_PARAMETER = "systemMessagesBeanName";
+    private static final String CONTEXT_CONFIG_LOCATION_PARAMETER = "contextConfigLocation";
     /**
      * Spring Application Context
      */
@@ -33,6 +34,18 @@ public class SpringVaadinServlet extends VaadinServlet
     public void init(ServletConfig config) throws ServletException
     {
         applicationContext = WebApplicationContextUtils.getWebApplicationContext(config.getServletContext());
+
+        if (config.getInitParameter(CONTEXT_CONFIG_LOCATION_PARAMETER) != null)
+        {
+            XmlWebApplicationContext context = new XmlWebApplicationContext();
+            context.setParent(applicationContext);
+            context.setConfigLocation(config.getInitParameter(CONTEXT_CONFIG_LOCATION_PARAMETER));
+            context.setServletConfig(config);
+            context.setServletContext(config.getServletContext());
+            context.refresh();
+
+            applicationContext = context;
+        }
 
         if (config.getInitParameter(SYSTEM_MESSAGES_BEAN_NAME_PARAMETER) != null)
         {
@@ -75,6 +88,15 @@ public class SpringVaadinServlet extends VaadinServlet
                 }
             });
         }
+
+        service.addSessionInitListener(new SessionInitListener()
+        {
+            @Override
+            public void sessionInit(SessionInitEvent event) throws ServiceException
+            {
+                event.getSession().setCommunicationManager(new SpringCommunicationManager(event.getSession()));
+            }
+        });
 
         return service;
     }

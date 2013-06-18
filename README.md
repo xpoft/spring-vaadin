@@ -12,6 +12,10 @@ You should use "transient" attribute for ApplicationContext and other's context'
 
 # Changelog
 
+## 1.8
+- Add servlet config parameter "contextConfigLocation". Path to Spring configuration.
+- Session scoped UI improvements.
+
 ## 1.7.3
 - Add custom UI providers support (servlet "UIProvider" property). Thx to mpilone.
 

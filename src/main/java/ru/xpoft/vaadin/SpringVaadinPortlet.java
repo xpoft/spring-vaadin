@@ -4,14 +4,11 @@ import com.vaadin.server.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.portlet.context.PortletApplicationContextUtils;
+import org.springframework.web.portlet.context.XmlPortletApplicationContext;
 
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletException;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import java.util.Date;
 
 /**
  * @author xpoft
@@ -23,6 +20,7 @@ public class SpringVaadinPortlet extends VaadinPortlet
      * Servlet parameter name for UI bean
      */
     private static final String SYSTEM_MESSAGES_BEAN_NAME_PARAMETER = "systemMessagesBeanName";
+    private static final String CONTEXT_CONFIG_LOCATION_PARAMETER = "contextConfigLocation";
     /**
      * Spring Application Context
      */
@@ -36,6 +34,18 @@ public class SpringVaadinPortlet extends VaadinPortlet
     public void init(PortletConfig config) throws PortletException
     {
         applicationContext = PortletApplicationContextUtils.getWebApplicationContext(config.getPortletContext());
+
+        if (config.getInitParameter(CONTEXT_CONFIG_LOCATION_PARAMETER) != null)
+        {
+            XmlPortletApplicationContext context = new XmlPortletApplicationContext();
+            context.setParent(applicationContext);
+            context.setConfigLocation(config.getInitParameter(CONTEXT_CONFIG_LOCATION_PARAMETER));
+            context.setPortletConfig(config);
+            context.setPortletContext(config.getPortletContext());
+            context.refresh();
+
+            applicationContext = context;
+        }
 
         if (config.getInitParameter(SYSTEM_MESSAGES_BEAN_NAME_PARAMETER) != null)
         {
@@ -78,6 +88,15 @@ public class SpringVaadinPortlet extends VaadinPortlet
                 }
             });
         }
+
+        service.addSessionInitListener(new SessionInitListener()
+        {
+            @Override
+            public void sessionInit(SessionInitEvent event) throws ServiceException
+            {
+                event.getSession().setCommunicationManager(new SpringCommunicationManager(event.getSession()));
+            }
+        });
 
         return service;
     }

@@ -90,6 +90,18 @@ public class DiscoveryNavigator extends Navigator implements ViewCacheContainer
 
             long start = Calendar.getInstance().getTimeInMillis();
             String[] beansName = SpringApplicationContext.getApplicationContext().getBeanDefinitionNames();
+
+            // Also looking for parent's beans definition
+            if (SpringApplicationContext.getApplicationContext().getParent() != null)
+            {
+                String[] parentBeansName = SpringApplicationContext.getApplicationContext().getParent().getBeanDefinitionNames();
+                String[] newBeansName = new String[beansName.length + parentBeansName.length];
+
+                System.arraycopy(beansName, 0, newBeansName, 0, beansName.length);
+                System.arraycopy(parentBeansName, 0, newBeansName, beansName.length, parentBeansName.length);
+
+                beansName = newBeansName;
+            }
             for (String beanName : beansName)
             {
                 Class beanClass = SpringApplicationContext.getApplicationContext().getType(beanName);
