@@ -62,7 +62,7 @@ public class SpringVaadinPortlet extends VaadinPortlet
     }
 
     @Override
-    protected VaadinPortletService createPortletService(DeploymentConfiguration deploymentConfiguration)
+    protected VaadinPortletService createPortletService(DeploymentConfiguration deploymentConfiguration) throws ServiceException
     {
         final VaadinPortletService service = super.createPortletService(deploymentConfiguration);
 
@@ -88,15 +88,6 @@ public class SpringVaadinPortlet extends VaadinPortlet
                 }
             });
         }
-
-        service.addSessionInitListener(new SessionInitListener()
-        {
-            @Override
-            public void sessionInit(SessionInitEvent event) throws ServiceException
-            {
-                event.getSession().setCommunicationManager(new SpringCommunicationManager(event.getSession()));
-            }
-        });
 
         return service;
     }

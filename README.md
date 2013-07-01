@@ -2,6 +2,12 @@ Documentation
 
 http://vaadin.xpoft.ru/
 
+# Vaadin 7.1.x
+SpringVaadinIntegration 2.x
+
+# Vaadin 7.0.x
+SpringVaadinIntegration 1.x
+
 # Serialization
 
 You should use "transient" attribute for ApplicationContext and other's context's beans.

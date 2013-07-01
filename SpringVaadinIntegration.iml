@@ -11,15 +11,12 @@
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vaadin:vaadin-server:7.0.7" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vaadin:vaadin-shared:7.0.7" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vaadin:vaadin-theme-compiler:7.0.7" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.6.6" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.portlet:portlet-api:2.0" level="project" />
@@ -35,10 +32,10 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.springframework:spring-webmvc-portlet:3.1.2.RELEASE" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.springframework:spring-webmvc:3.1.2.RELEASE" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.springframework:spring-context-support:3.1.2.RELEASE" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vaadin:vaadin-server:7.0.7" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vaadin:vaadin-shared:7.0.7" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vaadin:vaadin-server:7.1.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vaadin:vaadin-shared:7.1.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.vaadin:vaadin-shared-deps:1.0.2" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vaadin:vaadin-theme-compiler:7.0.7" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vaadin:vaadin-theme-compiler:7.1.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.commons:commons-jexl:2.1.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.w3c.css:sac:1.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.sourceforge.cssparser:cssparser:0.9.5" level="project" />
