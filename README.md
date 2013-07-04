@@ -18,6 +18,15 @@ You should use "transient" attribute for ApplicationContext and other's context'
 
 # Changelog
 
+## 2.0.1
+ - Add ability to initialize the plugin in a separate method. Thx to cmjartan.
+
+## 2.0
+- Vaadin 7.1 support
+
+Vaadin 7.1.x -> SpringVaadinIntegration 2.x
+Vaadin 7.0.x -> SpringVaadinIntegration 1.x
+
 ## 1.8
 - Add servlet config parameter "contextConfigLocation". Path to Spring configuration.
 - Session scoped UI improvements.
