@@ -61,11 +61,8 @@ public class SpringVaadinPortlet extends VaadinPortlet
         super.init(config);
     }
 
-    @Override
-    protected VaadinPortletService createPortletService(DeploymentConfiguration deploymentConfiguration) throws ServiceException
+    protected void initializePlugin(VaadinPortletService service)
     {
-        final VaadinPortletService service = super.createPortletService(deploymentConfiguration);
-
         // Spring system messages provider
         if (systemMessagesBeanName != null && systemMessagesBeanName != "")
         {
@@ -88,7 +85,13 @@ public class SpringVaadinPortlet extends VaadinPortlet
                 }
             });
         }
+    }
 
+    @Override
+    protected VaadinPortletService createPortletService(DeploymentConfiguration deploymentConfiguration) throws ServiceException
+    {
+        final VaadinPortletService service = super.createPortletService(deploymentConfiguration);
+        initializePlugin(service);
         return service;
     }
 }
