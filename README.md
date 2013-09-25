@@ -18,7 +18,7 @@ You should use "transient" attribute for ApplicationContext and other's context'
 
 # Changelog
 
-## 2.0.1
+## 2.0.2
 - Add initial OSGI support. Thx to vladimirfx.
 
 ## 2.0.1
