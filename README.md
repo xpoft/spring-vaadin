@@ -19,7 +19,10 @@ You should use "transient" attribute for ApplicationContext and other's context'
 # Changelog
 
 ## 2.0.1
- - Add ability to initialize the plugin in a separate method. Thx to cmjartan.
+- Add initial OSGI support. Thx to vladimirfx.
+
+## 2.0.1
+- Add ability to initialize the plugin in a separate method. Thx to cmjartan.
 
 ## 2.0
 - Vaadin 7.1 support

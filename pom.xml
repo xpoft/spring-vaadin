@@ -6,8 +6,9 @@
 
     <groupId>ru.xpoft.vaadin</groupId>
     <artifactId>spring-vaadin-integration</artifactId>
-    <version>2.0.1</version>
+    <version>2.0.2</version>
     <name>SpringVaadinIntegration</name>
+    <packaging>bundle</packaging>
     <url>https://github.com/xpoft/spring-vaadin</url>
 
     <properties>
@@ -39,7 +40,8 @@
             <groupId>javax.portlet</groupId>
             <artifactId>portlet-api</artifactId>
             <version>2.0</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
 
         <!-- Spring -->
@@ -55,7 +57,8 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc-portlet</artifactId>
             <version>${spring.version}</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
 
         <!-- Vaadin -->
@@ -71,7 +74,8 @@
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-core</artifactId>
             <version>1.2.1</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
 
     </dependencies>
@@ -102,19 +106,30 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <id>bundle-manifest</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
-                    <useDefaultManifestFile>true</useDefaultManifestFile>
+                    <instructions>
+                        <Export-Package>ru.xpoft.vaadin,ru.xpoft.vaadin.*</Export-Package>
+                        <Import-Package>*</Import-Package>
+                        <DynamicImport-Package>*</DynamicImport-Package>
 
-                    <archive>
-                        <manifestEntries>
-                            <Vaadin-Package-Version>1</Vaadin-Package-Version>
-                            <Implementation-Title>SpringVaadinIntegration</Implementation-Title>
-                            <Implementation-Version>${project.version}</Implementation-Version>
-                        </manifestEntries>
-                    </archive>
+                        <!-- Vaadin headers, copied to manifest as is -->
+                        <Vaadin-Package-Version>1</Vaadin-Package-Version>
+                        <Implementation-Title>SpringVaadinIntegration</Implementation-Title>
+                        <Implementation-Version>${project.version}</Implementation-Version>
+
+                    </instructions>
                 </configuration>
 
             </plugin>
