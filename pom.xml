@@ -6,7 +6,7 @@
 
     <groupId>ru.xpoft.vaadin</groupId>
     <artifactId>spring-vaadin-integration</artifactId>
-    <version>2.0.2</version>
+    <version>3.0</version>
     <name>SpringVaadinIntegration</name>
     <packaging>bundle</packaging>
     <url>https://github.com/xpoft/spring-vaadin</url>
@@ -15,8 +15,8 @@
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>3.1.2.RELEASE</spring.version>
-        <vaadin.version>7.1.0</vaadin.version>
+        <spring.version>4.0.5.RELEASE</spring.version>
+        <vaadin.version>7.2.0</vaadin.version>
     </properties>
 
     <dependencies>
@@ -24,7 +24,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.6.6</version>
+            <version>1.7.7</version>
         </dependency>
 
         <!-- Web API -->
@@ -73,7 +73,7 @@
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-core</artifactId>
-            <version>1.2.1</version>
+            <version>1.2.3</version>
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
@@ -91,7 +91,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>3.1</version>
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
@@ -108,6 +108,7 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.4.0</version>
                 <extensions>true</extensions>
                 <executions>
                     <execution>

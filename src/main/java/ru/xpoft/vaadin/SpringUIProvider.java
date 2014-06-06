@@ -32,39 +32,15 @@ public class SpringUIProvider extends UIProvider
     @Override
     public Class<? extends UI> getUIClass(UIClassSelectionEvent event)
     {
-        // Add session-scoped UI to current window
         if (this.isSessionScopedUI(event.getRequest()))
         {
-            String windowName = event.getRequest().getParameter("v-wn");
-
-            Map<String, Integer> retainOnRefreshUIs = VaadinSession.getCurrent().getPreserveOnRefreshUIs();
-            if (windowName != null && !retainOnRefreshUIs.isEmpty() && retainOnRefreshUIs.get(windowName) == null)
-            {
-                // Check for session-scope-UI
-                for(Map.Entry<String, Integer> entry : retainOnRefreshUIs.entrySet())
-                {
-                    UI ui = VaadinSession.getCurrent().getUIById(entry.getValue());
-                    VaadinSession.getCurrent().getPreserveOnRefreshUIs().put(windowName, ui.getUIId());
-                    break;
-                }
-            }
+            logger.warn("You should use Prototype scope for UI only!");
         }
 
         return (Class<? extends UI>) SpringApplicationContext.getApplicationContext().getType(getUIBeanName(event.getRequest()));
     }
 
-    @Override
-    public boolean isPreservedOnRefresh(UICreateEvent event)
-    {
-        if (isSessionScopedUI(event.getRequest()))
-        {
-            return true;
-        }
-
-        return super.isPreservedOnRefresh(event);
-    }
-
-    public boolean isSessionScopedUI(VaadinRequest request)
+    protected boolean isSessionScopedUI(VaadinRequest request)
     {
         return !SpringApplicationContext.getApplicationContext().isPrototype(getUIBeanName(request));
     }
