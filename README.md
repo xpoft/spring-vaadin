@@ -1,5 +1,7 @@
-Documentation
+Add-on
+http://vaadin.com/addon/springvaadinintegration
 
+Documentation
 http://vaadin.xpoft.ru/
 
 # Vaadin 7.2.x
