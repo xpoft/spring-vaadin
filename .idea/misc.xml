@@ -129,6 +129,9 @@
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="Osmorc" url="file://$PROJECT_DIR$" />
+  </component>
   <component name="IdProvider" IDEtalkID="46A689C6C1F0D3E3DCD0CBB6C0D0FFBE" />
   <component name="IvyIDEA.ProjectSettings">
     <option name="artifactTypeSettings">

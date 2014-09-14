@@ -6,6 +6,20 @@
         <option name="overrideAspectPath" value="true" />
       </configuration>
     </facet>
+    <facet type="Osmorc" name="OSGi">
+      <configuration manifestGenerationMode="OsmorcControlled" manifestLocation="" jarfileLocation="spring-vaadin-integration-3.0.1.jar" outputPathType="CompilerOutputPath" bndFileLocation="" bundlorFileLocation="" bundleActivator="" bundleSymbolicName="ru.xpoft.vaadin.spring-vaadin-integration" bundleVersion="3.0.1" ignoreFilePattern="" useProjectDefaultManifestFileLocation="true" alwaysRebuildBundleJAR="false" doNotSynchronizeWithMaven="false">
+        <additionalProperties>
+          <property key="Export-Package" value="ru.xpoft.vaadin,ru.xpoft.vaadin.*" />
+          <property key="Import-Package" value="*" />
+          <property key="DynamicImport-Package" value="*" />
+          <property key="Vaadin-Package-Version" value="1" />
+          <property key="Implementation-Title" value="SpringVaadinIntegration" />
+          <property key="Implementation-Version" value="3.0.1" />
+          <property key="Bundle-Name" value="SpringVaadinIntegration" />
+        </additionalProperties>
+        <additionalJARContents />
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
