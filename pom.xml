@@ -16,6 +16,7 @@
         <maven.compiler.target>1.6</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>4.1.0.RELEASE</spring.version>
+        <spring.security.version>3.2.5.RELEASE</spring.security.version>
         <vaadin.version>7.3.0</vaadin.version>
 
         <!-- ZIP Manifest fields -->
@@ -64,11 +65,20 @@
             <optional>true</optional>
         </dependency>
 
+
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Spring security-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${spring.security.version}</version>
             <scope>provided</scope>
         </dependency>
 
