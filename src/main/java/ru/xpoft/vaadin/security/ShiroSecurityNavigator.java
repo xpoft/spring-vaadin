@@ -21,9 +21,9 @@ import java.util.Arrays;
  *
  * @author xpoft
  */
-public class ShiroSecurityNavigator extends DiscoveryNavigator
+public class ShiroSecurityNavigator extends SecurityAwareDiscoveryNavigator
 {
-    private static Logger logger = LoggerFactory.getLogger(ShiroSecurityNavigator.class);
+
 
     public ShiroSecurityNavigator(UI ui, ComponentContainer container)
     {
@@ -46,45 +46,14 @@ public class ShiroSecurityNavigator extends DiscoveryNavigator
     }
 
     @Override
-    protected void addCachedBeans()
-    {
-        for (ViewCache view : views)
-        {
-            // Only allowed beans
-            if (hasAccess(view.getClazz()))
-            {
-                logger.debug("view name: \"{}\", class: {}, viewCached: {}", new Object[]{view.getName(), view.getClazz(), view.isCached()});
-                addBeanView(view.getName(), view.getBeanName(), view.getClazz(), view.isCached());
-            }
-        }
-    }
-
-    @Override
-    public void addBeanView(String viewName, Class<? extends View> viewClass, boolean cached)
-    {
-        if (!hasAccess(viewClass))
-        {
-            return;
-        }
-
-        super.addBeanView(viewName, viewClass, cached);
-    }
-
-    /**
-     * Check access for class
-     *
-     * @param clazz
-     * @return
-     */
-    public static boolean hasAccess(Class<?> clazz)
-    {
+    protected boolean hasAccess(Class<? extends View> viewClass) {
         boolean isAllow = true;
 
-        if (clazz.isAnnotationPresent(RequiresRoles.class))
+        if (viewClass.isAnnotationPresent(RequiresRoles.class))
         {
             isAllow = false;
 
-            RequiresRoles requiresRoles = clazz.getAnnotation(RequiresRoles.class);
+            RequiresRoles requiresRoles = viewClass.getAnnotation(RequiresRoles.class);
             String[] roles = requiresRoles.value();
             Logical logical = requiresRoles.logical();
             if (roles.length > 0)
@@ -114,11 +83,11 @@ public class ShiroSecurityNavigator extends DiscoveryNavigator
             }
         }
 
-        if (isAllow && clazz.isAnnotationPresent(RequiresPermissions.class))
+        if (isAllow && viewClass.isAnnotationPresent(RequiresPermissions.class))
         {
             isAllow = false;
 
-            RequiresPermissions requiresPermissions = clazz.getAnnotation(RequiresPermissions.class);
+            RequiresPermissions requiresPermissions = viewClass.getAnnotation(RequiresPermissions.class);
             String[] permissions = requiresPermissions.value();
             Logical logical = requiresPermissions.logical();
             Subject subject = SecurityUtils.getSubject();
@@ -149,19 +118,19 @@ public class ShiroSecurityNavigator extends DiscoveryNavigator
             }
         }
 
-        if (isAllow && clazz.isAnnotationPresent(RequiresAuthentication.class))
+        if (isAllow && viewClass.isAnnotationPresent(RequiresAuthentication.class))
         {
             Subject subject = SecurityUtils.getSubject();
             isAllow = subject.isAuthenticated();
         }
 
-        if (isAllow && clazz.isAnnotationPresent(RequiresGuest.class))
+        if (isAllow && viewClass.isAnnotationPresent(RequiresGuest.class))
         {
             Subject subject = SecurityUtils.getSubject();
             isAllow = subject.getPrincipals() == null;
         }
 
-        if (isAllow && clazz.isAnnotationPresent(RequiresUser.class))
+        if (isAllow && viewClass.isAnnotationPresent(RequiresUser.class))
         {
             Subject subject = SecurityUtils.getSubject();
             isAllow = subject.getPrincipals() != null && !subject.getPrincipals().isEmpty();
