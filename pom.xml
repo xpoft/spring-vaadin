@@ -115,11 +115,7 @@
             <id>repo</id>
             <url>file:///${basedir}/repository</url>
         </repository>
-        <snapshotRepository>
-            <id>lognet.repo</id>
-            <name>ilcvs02.lognet.local-snapshots</name>
-            <url>http://ilcvs02/artifactory/libs-snapshot-local</url>
-        </snapshotRepository>
+
     </distributionManagement>
 
     <build>
