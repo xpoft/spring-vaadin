@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" >
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.xpoft.vaadin</groupId>
     <artifactId>spring-vaadin-integration</artifactId>
-    <version>3.1</version>
+    <version>3.1.2-SNAPSHOT</version>
     <name>SpringVaadinIntegration</name>
     <packaging>bundle</packaging>
     <url>https://github.com/xpoft/spring-vaadin</url>
@@ -110,11 +110,16 @@
 
     </dependencies>
 
-    <distributionManagement>
-        <repository>
+    <distributionManagement >
+        <repository >
             <id>repo</id>
             <url>file:///${basedir}/repository</url>
         </repository>
+        <snapshotRepository>
+            <id>lognet.repo</id>
+            <name>ilcvs02.lognet.local-snapshots</name>
+            <url>http://ilcvs02/artifactory/libs-snapshot-local</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <build>
