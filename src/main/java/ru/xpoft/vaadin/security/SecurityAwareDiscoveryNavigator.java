@@ -35,27 +35,29 @@ public abstract class SecurityAwareDiscoveryNavigator extends DiscoveryNavigator
     @Override
     public void addBeanView(String viewName, Class<? extends View> viewClass, boolean cached)
     {
-        if (!hasAccess(viewClass))
-        {
-            return;
+        if (hasAccess(viewClass)){
+            super.addBeanView(viewName, viewClass, cached);
         }
 
-        super.addBeanView(viewName, viewClass, cached);
+        
     }
 
     @Override
-    protected void addCachedBeans()
-    {
-        for (ViewCache view : views)
-        {
-            // Only allowed beans
-            if (hasAccess(view.getClazz()))
-            {
-                logger.debug("view name: \"{}\", class: {}, viewCached: {}", new Object[]{view.getName(), view.getClazz(), view.isCached()});
-                addBeanView(view.getName(), view.getBeanName(), view.getClazz(), view.isCached());
-            }
+    public void addBeanView(String viewName, Class<? extends View> viewClass) {
+        if(hasAccess(viewClass)){
+            super.addBeanView(viewName, viewClass);    
+        }
+        
+    }
+
+    @Override
+    protected void addBeanView(String viewName, String beanName, Class<? extends View> viewClass, boolean cached) {
+        if(hasAccess(viewClass)) {
+            super.addBeanView(viewName, beanName, viewClass, cached);
         }
     }
+
+    
 
     /**
      * Check access for class

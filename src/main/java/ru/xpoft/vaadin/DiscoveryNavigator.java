@@ -57,6 +57,7 @@ public class DiscoveryNavigator extends Navigator implements ViewCacheContainer
     private static Logger logger = LoggerFactory.getLogger(DiscoveryNavigator.class);
     protected static final List<ViewCache> views = Collections.synchronizedList(new ArrayList<ViewCache>());
     private final Map<String, View> viewScoped = Collections.synchronizedMap(new HashMap<String, View>());
+    private final Set<Class<? extends View>> discoveredViews= Collections.synchronizedSet(new HashSet<Class<? extends View>>());
 
     public DiscoveryNavigator(UI ui, ComponentContainer container)
     {
@@ -176,9 +177,18 @@ public class DiscoveryNavigator extends Navigator implements ViewCacheContainer
      */
     protected void addBeanView(String viewName, String beanName, Class<? extends View> viewClass, boolean cached)
     {
+        discoveredViews.add(viewClass);
         addProvider(new SpringViewProvider(viewName, beanName, viewClass, cached, this));
     }
 
+    /**
+     * *
+     * @return discovered views classes
+     */
+    public Set<Class<? extends View>> getDiscoveredViews(){
+        return Collections.unmodifiableSet(discoveredViews);
+        
+    }
     @Override
     public void navigateTo(String navigationState)
     {
