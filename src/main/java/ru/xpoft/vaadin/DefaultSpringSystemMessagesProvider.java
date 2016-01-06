@@ -118,28 +118,6 @@ public class DefaultSpringSystemMessagesProvider implements SpringSystemMessages
             systemMessages.setInternalErrorNotificationEnabled(notificationEnabled);
         }
 
-        message = messageSource.getMessage("vaadin.outOfSync.Caption", null, MESSAGE_NOT_FOUND, locale);
-        if (!message.equals(MESSAGE_NOT_FOUND))
-        {
-            systemMessages.setOutOfSyncCaption(message);
-        }
-        message = messageSource.getMessage("vaadin.outOfSync.Message", null, MESSAGE_NOT_FOUND, locale);
-        if (!message.equals(MESSAGE_NOT_FOUND))
-        {
-            systemMessages.setOutOfSyncMessage(message);
-        }
-        message = messageSource.getMessage("vaadin.outOfSync.URL", null, MESSAGE_NOT_FOUND, locale);
-        if (!message.equals(MESSAGE_NOT_FOUND))
-        {
-            systemMessages.setOutOfSyncURL(message);
-        }
-        message = messageSource.getMessage("vaadin.outOfSync.NotificationEnabled", null, MESSAGE_NOT_FOUND, locale);
-        if (!message.equals(MESSAGE_NOT_FOUND))
-        {
-            boolean notificationEnabled = (message.equalsIgnoreCase("true") || message.equalsIgnoreCase("1"));
-            systemMessages.setOutOfSyncNotificationEnabled(notificationEnabled);
-        }
-
         message = messageSource.getMessage("vaadin.cookiesDisabled.Caption", null, MESSAGE_NOT_FOUND, locale);
         if (!message.equals(MESSAGE_NOT_FOUND))
         {

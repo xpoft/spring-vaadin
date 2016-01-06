@@ -4,6 +4,9 @@ http://vaadin.com/addon/springvaadinintegration
 Documentation
 http://vaadin.xpoft.ru/
 
+# Vaadin 7.6.x
+SpringVaadinIntegration 3.2.x
+
 # Vaadin 7.3.x
 SpringVaadinIntegration 3.1.x 
 
@@ -25,6 +28,10 @@ You should use "transient" attribute for ApplicationContext and other's context'
 ~~~~
 
 # Changelog
+
+## 3.2
+- Vaadin 7.6 support
+- Spring Framework 4.2
 
 ## 3.1
 - Vaadin 7.3 support
