@@ -32,7 +32,8 @@
 
         <section id="downloads" class="clearfix">
             <a href="http://vaadin.com/addon/springvaadinintegration" id="view-on-vaadin" class="button"><span>View on Vaadin</span></a>
-            <a href="https://github.com/xpoft/spring-vaadin" id="view-on-github" class="button"><span>View on GitHub</span></a>
+            <a href="https://github.com/xpoft/spring-vaadin" id="view-on-github"
+               class="button"><span>View on GitHub</span></a>
         </section>
 
         <!-- AddThis Button BEGIN -->
@@ -42,14 +43,16 @@
             <a class="addthis_button_pinterest_pinit"></a>
             <a class="addthis_counter addthis_pill_style"></a>
         </div>
-        <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
-        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5199a44e5e50b315"></script>
+        <script type="text/javascript">var addthis_config = {"data_track_addressbar": true};</script>
+        <script type="text/javascript"
+                src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5199a44e5e50b315"></script>
         <!-- AddThis Button END -->
 
         <section id="main_content">
             <h3>Introduction</h3>
 
-            <p>This is Vaadin Framework's add-on to integrate Spring Framework. It's the most popular add-on for Vaadin 7+ in the World :-)</p>
+            <p>This is Vaadin Framework's add-on to integrate Spring Framework. It's the most popular add-on for Vaadin
+                7+ in the World :-)</p>
 
             <h3>Features</h3>
 
@@ -72,18 +75,18 @@
             <p>Maven's pom.xml</p>
 <pre><code>&lt;repositories&gt;
     &lt;repository&gt;
-        &lt;id&gt;vaadin-addons&lt;/id&gt;
-        &lt;url&gt;http://maven.vaadin.com/vaadin-addons&lt;/url&gt;
+    &lt;id&gt;vaadin-addons&lt;/id&gt;
+    &lt;url&gt;http://maven.vaadin.com/vaadin-addons&lt;/url&gt;
     &lt;/repository&gt;
-&lt;/repositories&gt;
+    &lt;/repositories&gt;
 
-&lt;dependencies&gt;
+    &lt;dependencies&gt;
     &lt;dependency&gt;
-        &lt;groupId&gt;ru.xpoft.vaadin&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-vaadin-integration&lt;/artifactId&gt;
-        &lt;version&gt;3.2&lt;/version&gt;
+    &lt;groupId&gt;ru.xpoft.vaadin&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-vaadin-integration&lt;/artifactId&gt;
+    &lt;version&gt;3.2&lt;/version&gt;
     &lt;/dependency&gt;
-&lt;/dependencies&gt;
+    &lt;/dependencies&gt;
 </code></pre>
 
             <p>web.xml</p>
@@ -91,27 +94,27 @@
     &lt;servlet-name&gt;Test Application&lt;/servlet-name&gt;
     &lt;servlet-class&gt;ru.xpoft.vaadin.SpringVaadinServlet&lt;/servlet-class&gt;
     &lt;init-param&gt;
-        &lt;param-name&gt;beanName&lt;/param-name&gt;
-        &lt;param-value&gt;myUI&lt;/param-value&gt;
+    &lt;param-name&gt;beanName&lt;/param-name&gt;
+    &lt;param-value&gt;myUI&lt;/param-value&gt;
     &lt;/init-param&gt;
-&lt;/servlet&gt;
+    &lt;/servlet&gt;
 
-&lt;!-- Bind as an ordinary VaadingServlet --&gt;
-&lt;servlet-mapping&gt;
+    &lt;!-- Bind as an ordinary VaadingServlet --&gt;
+    &lt;servlet-mapping&gt;
     &lt;servlet-name&gt;Test Application&lt;/servlet-name&gt;
     &lt;url-pattern&gt;/app/*&lt;/url-pattern&gt;
-&lt;/servlet-mapping&gt;
-&lt;servlet-mapping&gt;
+    &lt;/servlet-mapping&gt;
+    &lt;servlet-mapping&gt;
     &lt;servlet-name&gt;Test Application&lt;/servlet-name&gt;
     &lt;url-pattern&gt;/VAADIN/*&lt;/url-pattern&gt;
-&lt;/servlet-mapping&gt;</code></pre>
+    &lt;/servlet-mapping&gt;</code></pre>
 
             <p>MyUI.java</p>
 <pre><code>@Component
-@Scope("prototype")
-@Theme("myTheme")
-public class MyUI extends UI
-{
+    @Scope("prototype")
+    @Theme("myTheme")
+    public class MyUI extends UI
+    {
     private static Logger logger = LoggerFactory.getLogger(TrackerUI.class);
 
     @Autowired
@@ -121,7 +124,7 @@ public class MyUI extends UI
     private MyClass myClass;
 
     ....
-}</code></pre>
+    }</code></pre>
 
             <h3 id="sample_project">Sample project</h3>
 
@@ -162,65 +165,66 @@ public class MyUI extends UI
 
             <p>Vaadin Navigator. Standard way</p>
 <pre><code>// Create a navigator to control the views
-Navigator navigator = new Navigator(this, this);
+    Navigator navigator = new Navigator(this, this);
 
-// Create and register the views
-navigator.addView("main", new MainView());
-navigator.addView("test", new TestView());
+    // Create and register the views
+    navigator.addView("main", new MainView());
+    navigator.addView("test", new TestView());
 </code></pre>
 
 <pre><code>public class TestView extends VerticalLayout implements View {
-...
-}
+    ...
+    }
 </code></pre>
 
 <pre><code>public class MainView extends VerticalLayout implements View {
-...
-}
+    ...
+    }
 </code></pre>
 
             <p>New DiscoveryNavigator. It can autowiring views.</p>
             <p>Use @VaadinView for views to set uri.</p>
 
 <pre><code>// Create a navigator to control the views
-DiscoveryNavigator navigator = new DiscoveryNavigator(this, this);
+    DiscoveryNavigator navigator = new DiscoveryNavigator(this, this);
 </code></pre>
 
 <pre><code>@Component
-@Scope("prototype")
-@VaadinView(TestView.NAME)
-public class TestView extends VerticalLayout implements View {
+    @Scope("prototype")
+    @VaadinView(TestView.NAME)
+    public class TestView extends VerticalLayout implements View {
     public static final String NAME = "test";
-...
-}</code></pre>
+    ...
+    }</code></pre>
 
 <pre><code>@Component
-@Scope("prototype")
-@VaadinView(MainView.NAME)
-public class MainView extends VerticalLayout implements View {
+    @Scope("prototype")
+    @VaadinView(MainView.NAME)
+    public class MainView extends VerticalLayout implements View {
     public static final String NAME = "main";
-...
-}</code></pre>
+    ...
+    }</code></pre>
 
             <p><a href="#sample_project">See sample project.</a></p>
 
             <h4 id="view_caching">Vaadin's Views caching</h4>
-            <p>You can cache a View instance for UI. It something like "Vaadin UI" scope for a View. The View creates only once for an UI instance.</p>
+            <p>You can cache a View instance for UI. It something like "Vaadin UI" scope for a View. The View creates
+                only once for an UI instance.</p>
 
             <p>@VaadinView(..., cached = true)</p>
 
 <pre><code>@Component
-@Scope("prototype")
-@VaadinView(value = UIScopedView.NAME, cached = true)
-public class UIScopedView extends Panel implements View
-{
-...
+    @Scope("prototype")
+    @VaadinView(value = UIScopedView.NAME, cached = true)
+    public class UIScopedView extends Panel implements View
+    {
+    ...
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent)
     {
     ...
     }
-}</code></pre>
+    }</code></pre>
 
             <p><a href="#sample_project">See sample project.</a></p>
 
@@ -229,7 +233,8 @@ public class UIScopedView extends Panel implements View
             <p>You can use Spring MessageSource as source for Vaadin SystemMessages.</p>
             <p>And wow! Now you can use localized messages!</p>
 
-            <p>You should reload page after changing language. Texts for CommunicationError and AuthenticationError implements on page loading. It's Vaadin.</p>
+            <p>You should reload page after changing language. Texts for CommunicationError and AuthenticationError
+                implements on page loading. It's Vaadin.</p>
 
             <h5>Use default SpringSystemMessagesProvide</h5>
 
@@ -240,23 +245,25 @@ public class UIScopedView extends Panel implements View
     &lt;servlet-class&gt;ru.xpoft.vaadin.SpringVaadinServlet&lt;/servlet-class&gt;
     ...
     &lt;init-param&gt;
-        &lt;param-name&gt;systemMessagesBeanName&lt;/param-name&gt;
-        &lt;param-value&gt;DEFAULT&lt;/param-value&gt;
+    &lt;param-name&gt;systemMessagesBeanName&lt;/param-name&gt;
+    &lt;param-value&gt;DEFAULT&lt;/param-value&gt;
     &lt;/init-param&gt;
-&lt;/servlet&gt;</code></pre>
+    &lt;/servlet&gt;</code></pre>
 
             <p>in your Spring messages</p>
 
 <pre><code>vaadin.sessionExpired.Caption = ...
-vaadin.sessionExpired.Message = ...
-vaadin.sessionExpired.URL = ...
-vaadin.sessionExpired.NotificationEnabled = ... (true / false)</code></pre>
+    vaadin.sessionExpired.Message = ...
+    vaadin.sessionExpired.URL = ...
+    vaadin.sessionExpired.NotificationEnabled = ... (true / false)</code></pre>
 
-            <p>Other message types: communicationError, authenticationError, internalError, outOfSync, cookiesDisabled</p>
+            <p>Other message types: communicationError, authenticationError, internalError, outOfSync,
+                cookiesDisabled</p>
 
-<pre><code>vaadin.communicationError.Caption = ...</code></pre>
+            <pre><code>vaadin.communicationError.Caption = ...</code></pre>
 
-            <p>If some translations don't found, it will use default Vaadin message. So you can translate "caption" only, for example.</p>
+            <p>If some translations don't found, it will use default Vaadin message. So you can translate "caption"
+                only, for example.</p>
 
             <h5>Use your bean (more difficult way)</h5>
             <p>web.xml</p>
@@ -265,31 +272,33 @@ vaadin.sessionExpired.NotificationEnabled = ... (true / false)</code></pre>
     &lt;servlet-class&gt;ru.xpoft.vaadin.SpringVaadinServlet&lt;/servlet-class&gt;
     ...
     &lt;init-param&gt;
-        &lt;param-name&gt;systemMessagesBeanName&lt;/param-name&gt;
-        &lt;param-value&gt;customSystemMessages&lt;/param-value&gt;
+    &lt;param-name&gt;systemMessagesBeanName&lt;/param-name&gt;
+    &lt;param-value&gt;customSystemMessages&lt;/param-value&gt;
     &lt;/init-param&gt;
-&lt;/servlet&gt;</code></pre>
+    &lt;/servlet&gt;</code></pre>
 
             <p>CustomSystemMessages class must implements SpringSystemMessagesProvider interface.</p>
 
             <h4 id="apache_shiro">Apache Shiro integration</h4>
             <p>Use ShiroSecurityNavigator instead of DiscoveryNavigator.
-            ShiroSecurityNavigator supports annotations @RequiresRoles, @RequiresPermissions, @RequiresAuthentication, @RequiresGuest, @RequiresUser for a View class. If user doesn't have permission, the View is not visible.
+                ShiroSecurityNavigator supports annotations @RequiresRoles, @RequiresPermissions,
+                @RequiresAuthentication, @RequiresGuest, @RequiresUser for a View class. If user doesn't have
+                permission, the View is not visible.
             </p>
 
             ShiroSecurityNavigator in UI
-<pre><code>ShiroSecurityNavigator navigator = new ShiroSecurityNavigator(this, getContent());</code></pre>
+            <pre><code>ShiroSecurityNavigator navigator = new ShiroSecurityNavigator(this, getContent());</code></pre>
 
             View example
 <pre><code>@Component
-@Scope("prototype")
-@VaadinView(RoleUserView.NAME)
-@RequiresRoles("user")
-public class RoleUserView extends Panel implements View
-{
-public static final String NAME = "role_user";
-...
-}
+    @Scope("prototype")
+    @VaadinView(RoleUserView.NAME)
+    @RequiresRoles("user")
+    public class RoleUserView extends Panel implements View
+    {
+    public static final String NAME = "role_user";
+    ...
+    }
 </code></pre>
 
             <p><a href="#sample_project">See sample project.</a></p>
@@ -303,8 +312,8 @@ public static final String NAME = "role_user";
 
     &lt;portlet-class&gt;ru.xpoft.vaadin.SpringVaadinPortlet&lt;/portlet-class&gt;
     &lt;init-param&gt;
-        &lt;name&gt;beanName&lt;/name&gt;
-        &lt;value&gt;myUI&lt;/value&gt;
+    &lt;name&gt;beanName&lt;/name&gt;
+    &lt;value&gt;myUI&lt;/value&gt;
     &lt;/init-param&gt;
 
     &lt;!--
@@ -315,46 +324,83 @@ public static final String NAME = "role_user";
     --&gt;
     &lt;!--
     &lt;init-param&gt;
-        &lt;name&gt;widgetset&lt;/name&gt;
-        &lt;value&gt;com.vaadin.portal.gwt.PortalDefaultWidgetSet&lt;/value&gt;
+    &lt;name&gt;widgetset&lt;/name&gt;
+    &lt;value&gt;com.vaadin.portal.gwt.PortalDefaultWidgetSet&lt;/value&gt;
     &lt;/init-param&gt;
     --&gt;
 
     &lt;!-- Supported portlet modes and content types. --&gt;
     &lt;supports&gt;
-        &lt;mime-type&gt;text/html&lt;/mime-type&gt;
-        &lt;portlet-mode&gt;view&lt;/portlet-mode&gt;
-        &lt;!-- &lt;portlet-mode&gt;edit&lt;/portlet-mode&gt; --&gt;
-        &lt;!-- &lt;portlet-mode&gt;help&lt;/portlet-mode&gt; --&gt;
+    &lt;mime-type&gt;text/html&lt;/mime-type&gt;
+    &lt;portlet-mode&gt;view&lt;/portlet-mode&gt;
+    &lt;!-- &lt;portlet-mode&gt;edit&lt;/portlet-mode&gt; --&gt;
+    &lt;!-- &lt;portlet-mode&gt;help&lt;/portlet-mode&gt; --&gt;
     &lt;/supports&gt;
 
     &lt;!-- Not always required but Liferay uses these. --&gt;
     &lt;portlet-info&gt;
-        &lt;title&gt;Test Portlet&lt;/title&gt;
-        &lt;short-title&gt;Test Portlet&lt;/short-title&gt;
+    &lt;title&gt;Test Portlet&lt;/title&gt;
+    &lt;short-title&gt;Test Portlet&lt;/short-title&gt;
     &lt;/portlet-info&gt;
-&lt;/portlet&gt;
+    &lt;/portlet&gt;
 </code></pre>
 
-        <footer>
-            SpringVaadinIntegration is maintained by <a href="https://github.com/xpoft">xpoft</a>
-            <!--<br>
-            This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a
-                href="http://twitter.com/jasonlong">Jason Long</a>.
-                -->
-        </footer>
+            <footer>
+                SpringVaadinIntegration is maintained by <a href="https://github.com/xpoft">xpoft</a>
+                <!--<br>
+                This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a
+                    href="http://twitter.com/jasonlong">Jason Long</a>.
+                    -->
+            </footer>
 
-        <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-        </script>
-        <script type="text/javascript">
-            try {
-                var pageTracker = _gat._getTracker("UA-39636756-2");
-                pageTracker._trackPageview();
-            } catch (err) {
-            }
-        </script>
+            <script type="text/javascript">
+                var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+                document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+            <script type="text/javascript">
+                try {
+                    var pageTracker = _gat._getTracker("UA-39636756-2");
+                    pageTracker._trackPageview();
+                } catch (err) {
+                }
+            </script>
+
+            <!-- Yandex.Metrika counter -->
+            <script type="text/javascript">
+                (function (d, w, c) {
+                    (w[c] = w[c] || []).push(function () {
+                        try {
+                            w.yaCounter37243870 = new Ya.Metrika({
+                                id: 37243870,
+                                clickmap: true,
+                                trackLinks: true,
+                                accurateTrackBounce: true
+                            });
+                        } catch (e) {
+                        }
+                    });
+
+                    var n = d.getElementsByTagName("script")[0],
+                            s = d.createElement("script"),
+                            f = function () {
+                                n.parentNode.insertBefore(s, n);
+                            };
+                    s.type = "text/javascript";
+                    s.async = true;
+                    s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+                    if (w.opera == "[object Opera]") {
+                        d.addEventListener("DOMContentLoaded", f, false);
+                    } else {
+                        f();
+                    }
+                })(document, window, "yandex_metrika_callbacks");
+            </script>
+            <noscript>
+                <div><img src="https://mc.yandex.ru/watch/37243870" style="position:absolute; left:-9999px;" alt=""/>
+                </div>
+            </noscript>
+            <!-- /Yandex.Metrika counter -->
 
     </div>
 </div>
