@@ -171,3 +171,4 @@ you can exclude some packages
 - DiscoveryNavigator
 
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/ca5361eb2e8883eda63e0f3fddc5407c "githalytics.com")](http://githalytics.com/xpoft/spring-vaadin)
+[!["Yandex.Metrika counter"](https://mc.yandex.ru/watch/37243880)]
